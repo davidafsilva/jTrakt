@@ -16,3 +16,8 @@
 <ol>
 <li>TBD</li>
 </ol>
+
+<b>JavaDoc:</b>
+<ol>
+<li>Pretty much all of it!</li>
+</ol>
