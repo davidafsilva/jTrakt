@@ -2,9 +2,8 @@
 
 <b>TV Related:</b>
 <ol>
-<li>Show seasons: http://trakt.tv/api-docs/show-seasons</li>
-<li>Show season: http://trakt.tv/api-docs/show-season</li>
-<li>Episode Summary: http://trakt.tv/api-docs/show-episode-summary</li>
+<li>Show season: <a href="http://trakt.tv/api-docs/show-season">show-season</a></li>
+<li>Episode Summary: <a href="http://trakt.tv/api-docs/show-episode-summary">show-episode-summary</a></li>
 </ol>
 
 <b>Movie Related:</b>

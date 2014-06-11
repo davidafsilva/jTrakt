@@ -5,11 +5,14 @@ import org.junit.Before;
 import org.junit.Test;
 import pt.davidafsilva.jtrakt.model.Genre;
 import pt.davidafsilva.jtrakt.model.TvShow;
+import pt.davidafsilva.jtrakt.model.TvShowSeason;
 import pt.davidafsilva.jtrakt.model.TvShowSummary;
 
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
@@ -53,5 +56,12 @@ public abstract class TraktTvServiceTest {
 		final TvShowSummary showSummary = service.getShowSummary("277165");
 		assertThat("No show summary found for \"Silicon Valley\"", showSummary, notNullValue());
 		assertThat("Invalid show expected", showSummary.getTitle(), is("Silicon Valley"));
+	}
+
+	@Test
+	public void testShowSeasons() throws Exception {
+		final List<TvShowSeason> seasons = service.getShowSeasons("277165");
+		assertThat("No seasons found for \"Silicon Valley\"", seasons, notNullValue());
+		assertThat("Excepted at least 2 seasons for \"Silicon Valley\"", seasons.size(), allOf(not(0), not(1)));
 	}
 }

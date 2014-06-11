@@ -2,6 +2,8 @@ package pt.davidafsilva.jtrakt.internal.response;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+import pt.davidafsilva.jtrakt.model.TvShowArt;
 import pt.davidafsilva.jtrakt.model.TvShowEpisode;
 import pt.davidafsilva.jtrakt.model.TvShowSeason;
 
@@ -25,7 +27,7 @@ public class TvShowSeasonTypeAdapter extends AbstractObjectTypeAdapter<TvShowSea
 	}
 
 	private enum Fields {
-		SEASON, EPISODES
+		SEASON, EPISODES, URL, IMAGES
 	}
 
 	@Override
@@ -49,10 +51,20 @@ public class TvShowSeasonTypeAdapter extends AbstractObjectTypeAdapter<TvShowSea
 				case SEASON:
 					object.setNumber(readInt(in));
 					break;
+				case URL:
+					object.setUrl(readString(in));
+					break;
 				case EPISODES:
-					object.setEpisodes(readList(in, TvShowEpisode.class));
-					object.getEpisodes().forEach(episode -> episode.setSeason(object));
-					object.setEpisodesNumber(object.getEpisodes().size());
+					if (in.peek() == JsonToken.NUMBER) {
+						object.setEpisodesNumber(readInt(in));
+					} else {
+						object.setEpisodes(readList(in, TvShowEpisode.class));
+						object.getEpisodes().forEach(episode -> episode.setSeason(object));
+						object.setEpisodesNumber(object.getEpisodes().size());
+					}
+					break;
+				case IMAGES:
+					object.setImages(readObject(in, TvShowArt.class));
 					break;
 				default:
 					in.skipValue();

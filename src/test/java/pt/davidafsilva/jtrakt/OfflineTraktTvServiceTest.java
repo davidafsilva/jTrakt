@@ -151,6 +151,13 @@ public class OfflineTraktTvServiceTest extends TraktTvServiceTest {
 					       "{\"name\":\"Matt Ross\",\"character\":\"Gavin Belson\"," +
 					       "\"images\":{\"headshot\":\"http://slurm.trakt.us/images/avatar-large.jpg\"}}]}," +
 					       "\"genres\":[\"Comedy\"]}")
+					.whenRequest("/show/seasons.json/apiKey/277165")
+					.reply("[{\"season\":1,\"episodes\":8,\"url\":\"http://trakt.tv/show/silicon-valley/season/1\"," +
+					       "\"poster\":\"http://slurm.trakt.us/images/seasons/23332-1.16.jpg\"," +
+					       "\"images\":{\"poster\":\"http://slurm.trakt.us/images/seasons/23332-1.16.jpg\"}}," +
+					       "{\"season\":0,\"episodes\":1,\"url\":\"http://trakt.tv/show/silicon-valley/specials\"," +
+					       "\"poster\":\"http://slurm.trakt.us/images/seasons/23332-0.16.jpg\"," +
+					       "\"images\":{\"poster\":\"http://slurm.trakt.us/images/seasons/23332-0.16.jpg\"}}]")
 					// build
                     .build());
 	}
