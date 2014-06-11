@@ -6,6 +6,7 @@ import pt.davidafsilva.jtrakt.model.Genre;
 import pt.davidafsilva.jtrakt.model.Rating;
 import pt.davidafsilva.jtrakt.model.TvShow;
 import pt.davidafsilva.jtrakt.model.TvShowArt;
+import pt.davidafsilva.jtrakt.model.TvShowSeason;
 
 import java.io.IOException;
 import java.time.ZoneOffset;
@@ -154,8 +155,7 @@ public class TvShowTypeAdapter extends AbstractObjectTypeAdapter<TvShow> {
 					object.setGenres(readSet(in, Genre.class));
 					break;
 				case SEASONS:
-					// FIXME: implement
-					in.skipValue();
+					object.setSeasons(readList(in, TvShowSeason.class));
 					break;
 				default:
 					in.skipValue();

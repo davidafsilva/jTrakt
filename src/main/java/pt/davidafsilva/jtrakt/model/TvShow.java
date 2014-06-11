@@ -1,6 +1,8 @@
 package pt.davidafsilva.jtrakt.model;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -27,7 +29,8 @@ public class TvShow extends BaseModel {
 	private boolean ended;
 	private TvShowArt images;
 	private Rating ratings;
-	private Set<Genre> genres;
+	private Set<Genre> genres = Collections.emptySet();
+	private List<TvShowSeason> seasons = Collections.emptyList();
 
 	public String getTitle() {
 		return title;
@@ -171,5 +174,13 @@ public class TvShow extends BaseModel {
 
 	public void setGenres(Set<Genre> genres) {
 		this.genres = genres;
+	}
+
+	public void setSeasons(final List<TvShowSeason> seasons) {
+		this.seasons = seasons;
+	}
+
+	public List<TvShowSeason> getSeasons() {
+		return seasons;
 	}
 }

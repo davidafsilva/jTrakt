@@ -10,6 +10,8 @@ import pt.davidafsilva.jtrakt.model.People;
 import pt.davidafsilva.jtrakt.model.Rating;
 import pt.davidafsilva.jtrakt.model.TvShow;
 import pt.davidafsilva.jtrakt.model.TvShowArt;
+import pt.davidafsilva.jtrakt.model.TvShowEpisode;
+import pt.davidafsilva.jtrakt.model.TvShowSeason;
 import pt.davidafsilva.jtrakt.model.TvShowSummary;
 
 /**
@@ -38,6 +40,10 @@ public enum ObjectFactory implements TypeAdapterFactory {
 			adapter = (TypeAdapter<T>) new PeopleTypeAdapter(gson);
 		} else if (type.getRawType() == Actor.class) {
 			adapter = (TypeAdapter<T>) new ActorTypeAdapter(gson);
+		} else if (type.getRawType() == TvShowSeason.class) {
+			adapter = (TypeAdapter<T>) new TvShowSeasonTypeAdapter(gson);
+		} else if (type.getRawType() == TvShowEpisode.class) {
+			adapter = (TypeAdapter<T>) new TvShowEpisodeTypeAdapter(gson);
 		}
 
 		return adapter;

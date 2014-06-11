@@ -3,6 +3,8 @@ package pt.davidafsilva.jtrakt.model;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This defines the base class for the object model.
@@ -12,6 +14,7 @@ import java.util.Date;
  */
 public class BaseModel {
 
+	// indentation
 	private static final int INDENT_SPACES = 2;
 
 	/**
@@ -19,7 +22,7 @@ public class BaseModel {
 	 */
 	@Override
 	public String toString() {
-		return internalStringRepresentation(1);
+		return internalStringRepresentation(new HashMap<>(), 1);
 	}
 
 	/**
@@ -39,27 +42,39 @@ public class BaseModel {
 	 * be the {@link java.util.Date#getTime()} timestamp.
 	 * </p>
 	 *
+	 * @param mapped
+	 * 		the current mapped object (avoid circular-references problems)
 	 * @param depth
 	 * 		the indentation depth for formatting purposes.
 	 * @return the internal String representation of the object
 	 */
-	private String internalStringRepresentation(int depth) {
+	private String internalStringRepresentation(Map<Object, String> mapped, int depth) {
 		final StringBuilder result = new StringBuilder();
 		final String newLine = System.getProperty("line.separator");
 		final String indent = String.valueOf(new char[INDENT_SPACES * depth]).replace("\0", " ");
 		final String finalIndent = String.valueOf(new char[INDENT_SPACES * (depth - 1)]).replace("\0", " ");
 
-		result.append(getClass().getName());
-		result.append(" {");
-		result.append(newLine);
+		final String representation = mapped.get(this);
+		if (representation == null) {
+			result.append(getClass().getName());
+			result.append("@");
+			result.append(Integer.toHexString(System.identityHashCode(this)));
 
-		// add fields
-		iterateOverClassFields(getClass(), result, indent, newLine, depth);
+			// add fields
+			mapped.put(this, result.toString());
 
-		if (!finalIndent.isEmpty()) {
-			result.append(finalIndent);
+			result.append(" {");
+			result.append(newLine);
+			iterateOverClassFields(mapped, getClass(), result, indent, newLine, depth);
+
+			if (!finalIndent.isEmpty()) {
+				result.append(finalIndent);
+			}
+			result.append("}");
+		} else {
+			result.append(representation);
+			result.append(" (ref.)");
 		}
-		result.append("}");
 
 		return result.toString();
 	}
@@ -67,6 +82,8 @@ public class BaseModel {
 	/**
 	 * Iterates over the give class fields and injects the name-value pair for their fields
 	 *
+	 * @param mapped
+	 * 		the current mapped object (avoid circular-references problems)
 	 * @param clazz
 	 * 		the class do run through
 	 * @param result
@@ -78,8 +95,8 @@ public class BaseModel {
 	 * @param depth
 	 * 		the current depth
 	 */
-	private void iterateOverClassFields(Class<?> clazz, StringBuilder result, String indent, String newLine,
-	                                    int depth) {
+	private void iterateOverClassFields(Map<Object, String> mapped, Class<?> clazz, StringBuilder result,
+	                                    String indent, String newLine, int depth) {
 		// add field names paired with their values
 		for (Field field : clazz.getDeclaredFields()) {
 			// ignore field modifier
@@ -89,7 +106,7 @@ public class BaseModel {
 			try {
 				result.append(field.getName());
 				result.append(": ");
-				Object value = getObjectRepresentation(field.get(this), indent, newLine, depth);
+				Object value = getObjectRepresentation(mapped, field.get(this), indent, newLine, depth);
 				result.append(value);
 			} catch (IllegalAccessException ex) {
 				result.append(ex);
@@ -99,13 +116,15 @@ public class BaseModel {
 
 		// check super classes
 		if (clazz.getSuperclass() != BaseModel.class) {
-			iterateOverClassFields(clazz.getSuperclass(), result, indent, newLine, depth);
+			iterateOverClassFields(mapped, clazz.getSuperclass(), result, indent, newLine, depth);
 		}
 	}
 
 	/**
 	 * Returns the actual object representation of an arbitrary object.
 	 *
+	 * @param mapped
+	 * 		the current mapped object (avoid circular-references problems)
 	 * @param value
 	 * 		the object to be represented
 	 * @param indent
@@ -116,7 +135,8 @@ public class BaseModel {
 	 * 		the current depth in indentation
 	 * @return the object representation
 	 */
-	private Object getObjectRepresentation(Object value, String indent, String newLine, int depth) {
+	private Object getObjectRepresentation(Map<Object, String> mapped, Object value, String indent, String newLine,
+	                                       int depth) {
 		Object representation = value;
 		if (value != null) {
 			if (value.getClass() == Date.class) {
@@ -137,7 +157,8 @@ public class BaseModel {
 						} else {
 							representationBuilder.append(indent);
 						}
-						representationBuilder.append(getObjectRepresentation(item, indent, newLine, depth + 1));
+						representationBuilder.append(getObjectRepresentation(mapped, item, indent, newLine,
+						                                                     depth + 1));
 					}
 					representationBuilder.append(newLine);
 					representationBuilder.append(indent);
@@ -145,7 +166,7 @@ public class BaseModel {
 					representation = representationBuilder.toString();
 				}
 			} else if (value instanceof BaseModel) {
-				representation = ((BaseModel) value).internalStringRepresentation(depth + 1);
+				representation = ((BaseModel) value).internalStringRepresentation(mapped, depth + 1);
 			}
 		}
 

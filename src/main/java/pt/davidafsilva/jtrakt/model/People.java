@@ -1,5 +1,6 @@
 package pt.davidafsilva.jtrakt.model;
 
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Set;
  */
 public class People extends BaseModel {
 
-	private Set<Actor> actors;
+	private Set<Actor> actors = Collections.emptySet();
 
 
 	public Set<Actor> getActors() {

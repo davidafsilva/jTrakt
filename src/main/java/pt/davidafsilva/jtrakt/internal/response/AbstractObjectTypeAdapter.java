@@ -13,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -181,13 +182,13 @@ abstract class AbstractObjectTypeAdapter<T> extends TypeAdapter<T> {
 	<C> Set<C> readSet(final JsonReader reader, final Class<C> clazz) throws IOException {
 		Set<C> set = new HashSet<>();
 		readCollection(reader, clazz, set);
-		return set;
+		return set == null ? Collections.emptySet() : set;
 	}
 
 	<C> List<C> readList(final JsonReader reader, final Class<C> clazz) throws IOException {
 		List<C> list = new ArrayList<>();
 		readCollection(reader, clazz, list);
-		return list;
+		return list == null ? Collections.emptyList() : list;
 	}
 
 	<C> void readCollection(final JsonReader reader, final Class<C> clazz, Collection<C> destiny) throws IOException {

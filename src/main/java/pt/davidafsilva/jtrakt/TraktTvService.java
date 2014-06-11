@@ -20,7 +20,7 @@ public interface TraktTvService {
 	@GET("/search/shows.json/{apiKey}")
 	public List<TvShow> searchShow(@Query("query") String show,
 	                       @Query("limit") Integer limit,
-	                       @Query("seasons") Boolean seasons);
+	                       @Query("seasons") Boolean includeSeasons);
 
 	@GET("/genres/shows.json/{apiKey}")
 	public List<Genre> getGenres();
