@@ -4,6 +4,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import pt.davidafsilva.jtrakt.client.MockClient;
+import pt.davidafsilva.jtrakt.internal.cache.DeserializationCache;
 import pt.davidafsilva.jtrakt.internal.response.ObjectFactory;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
@@ -18,7 +19,13 @@ public enum TraktTestServiceFactory {
 	INSTANCE;
 
 	public TraktTvService createTvService(final MockClient client) {
-		final RequestInterceptor requestInterceptor = requestFacade -> requestFacade.addPathParam("apiKey", "apiKey");
+		final RequestInterceptor requestInterceptor = requestFacade -> {
+			// request parameters
+			requestFacade.addPathParam("apiKey", "apiKey");
+
+			// clean up thread cache
+			DeserializationCache.INSTANCE.clean();
+		};
 
 		final Gson gson = new GsonBuilder()
 				.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)

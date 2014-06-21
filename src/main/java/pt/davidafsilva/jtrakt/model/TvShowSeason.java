@@ -1,6 +1,6 @@
 package pt.davidafsilva.jtrakt.model;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,7 +12,7 @@ public class TvShowSeason extends BaseModel {
 
 	private int number;
 	private int episodesNumber;
-	private List<TvShowEpisode> episodes = Collections.emptyList();
+	private List<TvShowEpisode> episodes = new ArrayList<>();
 	private String url;
 	private TvShowArt images;
 

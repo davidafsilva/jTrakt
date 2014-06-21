@@ -3,6 +3,7 @@ package pt.davidafsilva.jtrakt.internal.response;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import pt.davidafsilva.jtrakt.model.TvShowEpisode;
+import pt.davidafsilva.jtrakt.model.TvShowSeason;
 
 import java.io.IOException;
 
@@ -46,8 +47,10 @@ public class TvShowEpisodeTypeAdapter extends AbstractObjectTypeAdapter<TvShowEp
 		if (field != null) {
 			switch (field) {
 				case SEASON:
-					// will be set by the season adapter later
-					in.skipValue();
+					// will be overridden by seasons adapter, if it's the source
+                    final TvShowSeason season = new TvShowSeason();
+					season.setNumber(readInt(in));
+					object.setSeason(season);
 					break;
 				case NUMBER:
 					object.setNumber(readInt(in));

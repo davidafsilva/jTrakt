@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import pt.davidafsilva.jtrakt.model.Genre;
 import pt.davidafsilva.jtrakt.model.TvShow;
+import pt.davidafsilva.jtrakt.model.TvShowEpisodeSummary;
 import pt.davidafsilva.jtrakt.model.TvShowSeason;
 import pt.davidafsilva.jtrakt.model.TvShowSummary;
 
@@ -39,9 +40,11 @@ public abstract class TraktTvServiceTest {
 
 	@Test
 	public void testSearchShow() throws Exception {
-		final List<TvShow> tvShows = service.searchShow("Silicon Valley", 1, true);
+		final List<TvShow> tvShows = service.searchShow("Silicon Valley", 1);
 		assertThat("No results found for \"Silicon Valley\"", tvShows, notNullValue());
 		assertThat("Excepted 1 TV show result for \"Silicon Valley\"", tvShows.size(), is(1));
+		final TvShow show = tvShows.get(0);
+		assertThat(show.getTitle(), is("Silicon Valley"));
 	}
 
 	@Test
@@ -63,5 +66,12 @@ public abstract class TraktTvServiceTest {
 		final List<TvShowSeason> seasons = service.getShowSeasons("277165");
 		assertThat("No seasons found for \"Silicon Valley\"", seasons, notNullValue());
 		assertThat("Excepted at least 2 seasons for \"Silicon Valley\"", seasons.size(), allOf(not(0), not(1)));
+	}
+
+	@Test
+	public void testShowEpisodes() throws Exception {
+		final List<TvShowEpisodeSummary> episodes = service.getShowEpisodes("277165", 1);
+		assertThat("No episodes found for \"Silicon Valley\", season one", episodes, notNullValue());
+		assertThat("Excepted 8 episodes for season one of \"Silicon Valley\"", episodes.size(), is(8));
 	}
 }

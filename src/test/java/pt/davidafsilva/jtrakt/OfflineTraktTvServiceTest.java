@@ -151,6 +151,7 @@ public class OfflineTraktTvServiceTest extends TraktTvServiceTest {
 					       "{\"name\":\"Matt Ross\",\"character\":\"Gavin Belson\"," +
 					       "\"images\":{\"headshot\":\"http://slurm.trakt.us/images/avatar-large.jpg\"}}]}," +
 					       "\"genres\":[\"Comedy\"]}")
+					// show seasons
 					.whenRequest("/show/seasons.json/apiKey/277165")
 					.reply("[{\"season\":1,\"episodes\":8,\"url\":\"http://trakt.tv/show/silicon-valley/season/1\"," +
 					       "\"poster\":\"http://slurm.trakt.us/images/seasons/23332-1.16.jpg\"," +
@@ -158,6 +159,88 @@ public class OfflineTraktTvServiceTest extends TraktTvServiceTest {
 					       "{\"season\":0,\"episodes\":1,\"url\":\"http://trakt.tv/show/silicon-valley/specials\"," +
 					       "\"poster\":\"http://slurm.trakt.us/images/seasons/23332-0.16.jpg\"," +
 					       "\"images\":{\"poster\":\"http://slurm.trakt.us/images/seasons/23332-0.16.jpg\"}}]")
+					// show episodes
+					.whenRequest("/show/season.json/apiKey/277165/1")
+					.reply("[{\"season\":1,\"episode\":1,\"number\":1,\"tvdb_id\":4765079,\"title\":\"Minimum Viable " +
+					       "Product\",\"overview\":\"Attending an elaborate launch party, Richard and his computer " +
+					       "programmer friends - Big Head, Dinesh and Gilfoyle - dream of making it big. Instead, " +
+					       "they're living in the communal Hacker Hostel owned by former programmer Erlich, who gets " +
+					       "to claim ten percent of anything they invent there. When it becomes clear that Richard has" +
+					       " developed a powerful compression algorithm for his website, Pied Piper, he finds himself " +
+					       "courted by Gavin Belson, his egomaniacal corporate boss, who offers a $10 million buyout by " +
+					       "his firm, Hooli. But Richard holds back when well-known investor Peter Gregory makes a " +
+					       "counteroffer. \",\"first_aired\":1396846800,\"first_aired_iso\":\"2014-04-06T22:00:00-04:" +
+					       "00\",\"first_aired_utc\":1396836000,\"url\":\"http://trakt.tv/show/silicon-valley/season/1/" +
+					       "episode/1\",\"screen\":\"http://slurm.trakt.us/images/episodes/23332-1-1.16.jpg\",\"image" +
+					       "s\":{\"screen\":\"http://slurm.trakt.us/images/episodes/23332-1-1.16.jpg\"},\"ratings\":{\"p" +
+					       "ercentage\":79,\"votes\":1117,\"loved\":1074,\"hated\":43}},{\"season\":1,\"episode\":2,\"n" +
+					       "umber\":2,\"tvdb_id\":4794504,\"title\":\"The Cap Table\",\"overview\":\"After a celebrator" +
+					       "y party at the Hacker Hostel, Richard and Erlich learn that Peter Gregory won't pay up unti" +
+					       "l they deliver a viable business plan that includes a slimmed-downed staff. A desperate Ric" +
+					       "hard hires former Belson underling Jared, and they set about trying to trim the fat. While " +
+					       "Gilfoyle and Dinesh prove essential, Big Head's place in the company is less certain.\",\"f" +
+					       "irst_aired\":1397451600,\"first_aired_iso\":\"2014-04-13T22:00:00-04:00\",\"first_aired_utc" +
+					       "\":1397440800,\"url\":\"http://trakt.tv/show/silicon-valley/season/1/episode/2\",\"screen" +
+					       "\":\"http://slurm.trakt.us/images/episodes/23332-1-2.16.jpg\",\"images\":{\"screen\":\"htt" +
+					       "p://slurm.trakt.us/images/episodes/23332-1-2.16.jpg\"},\"ratings\":{\"percentage\":80,\"vo" +
+					       "tes\":955,\"loved\":929,\"hated\":26}},{\"season\":1,\"episode\":3,\"number\":3,\"tvdb_i" +
+					       "d\":4794505,\"title\":\"Articles of Incorporation\",\"overview\":\"While Gavin Belson beg" +
+					       "ins to hype Nucleus, a competing compression platform, Richard learns that the name Pied " +
+					       "Piper is already registered to a sprinkler company, forcing him to negotiate. Meanwhile, " +
+					       "Erlich goes on a vision quest for a new company name, and Peter Gregory proves elusive w" +
+					       "hen one of his companies asks for money.\",\"first_aired\":1398056400,\"first_aired_iso\":" +
+					       "\"2014-04-20T22:00:00-04:00\",\"first_aired_utc\":1398045600,\"url\":\"http://trakt.tv/show" +
+					       "/silicon-valley/season/1/episode/3\",\"screen\":\"http://slurm.trakt.us/images/episodes/23" +
+					       "332-1-3.16.jpg\",\"images\":{\"screen\":\"http://slurm.trakt.us/images/episodes/23332-1-3." +
+					       "16.jpg\"},\"ratings\":{\"percentage\":81,\"votes\":878,\"loved\":867,\"hated\":11}},{\"se" +
+					       "ason\":1,\"episode\":4,\"number\":4,\"tvdb_id\":4794506,\"title\":\"Fiduciary Duties\",\"ov" +
+					       "erview\":\"At Peter's toga party, Richard drunkenly promises to make Erlich a board member" +
+					       ", which he regrets the next morning. After being unassigned at Hooli, Big Head finds other" +
+					       "s like him who have made careers out of doing nothing. Richard struggles to put Pied Pipe" +
+					       "r's vision into words for a presentation without Erlich; later, he discovers an interestin" +
+					       "g connection between Peter and Gavin Belson.\",\"first_aired\":1398661200,\"first_aired_i" +
+					       "so\":\"2014-04-27T22:00:00-04:00\",\"first_aired_utc\":1398650400,\"url\":\"http://trakt." +
+					       "tv/show/silicon-valley/season/1/episode/4\",\"screen\":\"http://slurm.trakt.us/images/epi" +
+					       "sodes/23332-1-4.16.jpg\",\"images\":{\"screen\":\"http://slurm.trakt.us/images/episodes/2" +
+					       "3332-1-4.16.jpg\"},\"ratings\":{\"percentage\":81,\"votes\":810,\"loved\":799,\"hated\":1" +
+					       "1}},{\"season\":1,\"episode\":5,\"number\":5,\"tvdb_id\":4794507,\"title\":\"Signaling R" +
+					       "isk\",\"overview\":\"Erlich taps a graffiti artist to design Pied Piper's logo, with pre" +
+					       "dictably controversial results. Meanwhile, Richard learns he doesn't have much time to p" +
+					       "repare for a live demonstration at TechCrunch Disrupt; Gavin Belson and Peter Gregory h" +
+					       "ave an unexpected encounter; and Jared works on the company's efficiency. \",\"first_ai" +
+					       "red\":1399266000,\"first_aired_iso\":\"2014-05-04T22:00:00-04:00\",\"first_aired_utc\":" +
+					       "1399255200,\"url\":\"http://trakt.tv/show/silicon-valley/season/1/episode/5\",\"scre" +
+					       "en\":\"http://slurm.trakt.us/images/episodes/23332-1-5.16.jpg\",\"images\":{\"scre" +
+					       "en\":\"http://slurm.trakt.us/images/episodes/23332-1-5.16.jpg\"},\"ratings\":{\"perc" +
+					       "entage\":83,\"votes\":774,\"loved\":771,\"hated\":3}},{\"season\":1,\"episode\":6,\"n" +
+					       "umber\":6,\"tvdb_id\":4794508,\"title\":\"Third Party Insourcing\",\"overview\":\"Rich" +
+					       "ard feels threatened when the team hires \\u201cThe Carver\\u201d a hacker with a notoriou" +
+					       "s reputation, to help with Pied Piper\\u2019s cloud. Jared finds himself taken for a ride" +
+					       " when he seeks out Peter Gregory\\u2019s signature. Erlich and Dinesh compete for the att" +
+					       "ention of Tara, Gilfoyles visiting girlfriend. Later, Dinesh faces a sexual dilemma.\",\"" +
+					       "first_aired\":1399870800,\"first_aired_iso\":\"2014-05-11T22:00:00-04:00\",\"first_aired_" +
+					       "utc\":1399860000,\"url\":\"http://trakt.tv/show/silicon-valley/season/1/episode/6\",\"scr" +
+					       "een\":\"http://slurm.trakt.us/images/episodes/23332-1-6.16.jpg\",\"images\":{\"screen\":\"h" +
+					       "ttp://slurm.trakt.us/images/episodes/23332-1-6.16.jpg\"},\"ratings\":{\"percentage\":83,\"v" +
+					       "otes\":727,\"loved\":720,\"hated\":7}},{\"season\":1,\"episode\":7,\"number\":7,\"tvdb_id\":4" +
+					       "794509,\"title\":\"Proof of Concept\",\"overview\":\"At TechCrunch Disrupt, Richard fee" +
+					       "ls the pressure to finish his demo, but finds himself distracted by a girl he dated brie" +
+					       "fly, who\\u2019s now spreading rumors about him. Jared worries that Monica is taking his" +
+					       " place in the company. Dinesh develops a crush on a girl at a neighboring booth. Erli" +
+					       "ch\\u2019s scandalous past connection to one of the judges threatens Pied Piper\\u2019s " +
+					       "chances.\",\"first_aired\":1400475600,\"first_aired_iso\":\"2014-05-18T22:00:00-04:00\",\"f" +
+					       "irst_aired_utc\":1400464800,\"url\":\"http://trakt.tv/show/silicon-valley/season/1/episod" +
+					       "e/7\",\"screen\":\"http://slurm.trakt.us/images/episodes/23332-1-7.16.jpg\",\"images\":{\"s" +
+					       "creen\":\"http://slurm.trakt.us/images/episodes/23332-1-7.16.jpg\"},\"ratings\":{\"percenta" +
+					       "ge\":85,\"votes\":753,\"loved\":750,\"hated\":3}},{\"season\":1,\"episode\":8,\"number\":8" +
+					       ",\"tvdb_id\":4822932,\"title\":\"Optimal Tip-To-Tip Efficiency\",\"overview\":\"Poised to " +
+					       "compete at TechCrunch Disrupt, the guys of Pied Piper become worried after an impressive p" +
+					       "resentation by Gavin Belson. As Jared tries to pivot the company, Richard is inspired to " +
+					       "make big changes at the last minute. \",\"first_aired\":1401685200,\"first_aired_iso\":\"20" +
+					       "14-06-01T22:00:00-04:00\",\"first_aired_utc\":1401674400,\"url\":\"http://trakt.tv/show/si" +
+					       "licon-valley/season/1/episode/8\",\"screen\":\"http://slurm.trakt.us/images/episodes/23332" +
+					       "-1-8.16.jpg\",\"images\":{\"screen\":\"http://slurm.trakt.us/images/episodes/23332-1-8.16" +
+					       ".jpg\"},\"ratings\":{\"percentage\":88,\"votes\":688,\"loved\":686,\"hated\":2}}]")
 					// build
                     .build());
 	}

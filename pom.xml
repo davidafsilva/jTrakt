@@ -8,6 +8,7 @@
     <artifactId>jtrakt</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
+    <name>jTrakt</name>
 
     <!-- default encoding -->
     <properties>
@@ -20,7 +21,7 @@
         <dependency>
             <groupId>com.squareup.retrofit</groupId>
             <artifactId>retrofit</artifactId>
-            <version>1.5.1</version>
+            <version>1.6.0</version>
         </dependency>
 
         <!-- jUnit for testing -->
@@ -68,6 +69,26 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+            <!-- store implementation details when building the jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+                        <manifestEntries>
+                            <Specification-Title>${project.name}</Specification-Title>
+                            <Specification-Version>${project.version}</Specification-Version>
+                            <Implementation-Title>${project.name}</Implementation-Title>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                            <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
+                        </manifestEntries>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>

@@ -2,6 +2,7 @@ package pt.davidafsilva.jtrakt;
 
 import pt.davidafsilva.jtrakt.model.Genre;
 import pt.davidafsilva.jtrakt.model.TvShow;
+import pt.davidafsilva.jtrakt.model.TvShowEpisodeSummary;
 import pt.davidafsilva.jtrakt.model.TvShowSeason;
 import pt.davidafsilva.jtrakt.model.TvShowSummary;
 import retrofit.http.GET;
@@ -19,20 +20,32 @@ import java.util.List;
 public interface TraktTvService {
 
 	@GET("/search/shows.json/{apiKey}")
-	public List<TvShow> searchShow(@Query("query") String show,
-	                       @Query("limit") Integer limit,
-	                       @Query("seasons") Boolean includeSeasons);
+	List<TvShow> searchShow(@Query("query") String show);
+
+	@GET("/search/shows.json/{apiKey}")
+	List<TvShow> searchShow(@Query("query") String show,
+	                        @Query("limit") int limit);
+
+	@GET("/search/shows.json/{apiKey}")
+	List<TvShow> searchShow(@Query("query") String show,
+	                        @Query("limit") int limit,
+	                        @Query("seasons") boolean includeSeasons);
 
 	@GET("/genres/shows.json/{apiKey}")
-	public List<Genre> getGenres();
+	List<Genre> getGenres();
 
 	@GET("/show/summary.json/{apiKey}/{identifier}")
-	public TvShowSummary getShowSummary(@Path("identifier") String showIdentifier);
+	TvShowSummary getShowSummary(@Path("identifier") String showIdentifier);
 
 	@GET("/show/summary.json/{apiKey}/{identifier}/{extended}")
-	public TvShowSummary getShowSummary(@Path("identifier") String showIdentifier,
-	                                    @Path("extended") boolean extended);
+	TvShowSummary getShowSummary(@Path("identifier") String showIdentifier,
+	                             @Path("extended") boolean extended);
 
 	@GET("/show/seasons.json/{apiKey}/{identifier}")
-	public List<TvShowSeason> getShowSeasons(@Path("identifier") String showIdentifier);
+	List<TvShowSeason> getShowSeasons(@Path("identifier") String showIdentifier);
+
+	@GET("/show/season.json/{apiKey}/{identifier}/{season}")
+	List<TvShowEpisodeSummary> getShowEpisodes(@Path("identifier") String showIdentifier,
+                                               @Path("season") int seasonNumber);
+
 }

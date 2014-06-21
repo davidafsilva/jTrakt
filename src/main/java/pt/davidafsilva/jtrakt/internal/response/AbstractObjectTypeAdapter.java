@@ -9,11 +9,8 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,7 +33,7 @@ abstract class AbstractObjectTypeAdapter<T> extends TypeAdapter<T> {
 	 * @param gson
 	 * 		the GSON object
 	 */
-	AbstractObjectTypeAdapter(Gson gson) {
+	AbstractObjectTypeAdapter(final Gson gson) {
 		this.gson = gson;
 	}
 
@@ -85,7 +82,19 @@ abstract class AbstractObjectTypeAdapter<T> extends TypeAdapter<T> {
 				break;
 		}
 
+		onReadFinished(obj);
+
 		return obj;
+	}
+
+	/**
+	 * This method is called whenever a read is indeed finalized.
+	 *
+	 * @param object
+	 * 		the read object
+	 */
+	void onReadFinished(final T object) {
+		// do nothing, by default
 	}
 
 	/**
@@ -156,20 +165,6 @@ abstract class AbstractObjectTypeAdapter<T> extends TypeAdapter<T> {
 		return readObject(reader, long.class);
 	}
 
-	LocalDateTime readDateTimeISO8601(final JsonReader reader) throws IOException {
-		LocalDateTime date = null;
-		final String dateStr = readString(reader);
-		if (dateStr != null) {
-			try {
-				date = LocalDateTime.parse(dateStr, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-			} catch (DateTimeParseException e) {
-				logger.warning(String.format("Invalid ISO-8601 date received: %s", e.getMessage()));
-			}
-		}
-
-		return date;
-	}
-
 	LocalDateTime readDateTimeTimestamp(final JsonReader reader, final ZoneOffset offset) throws IOException {
 		final Long timestamp = readLong(reader);
 		return timestamp == null ? null : LocalDateTime.ofEpochSecond(timestamp, 0, offset);
@@ -182,13 +177,13 @@ abstract class AbstractObjectTypeAdapter<T> extends TypeAdapter<T> {
 	<C> Set<C> readSet(final JsonReader reader, final Class<C> clazz) throws IOException {
 		Set<C> set = new HashSet<>();
 		readCollection(reader, clazz, set);
-		return set == null ? Collections.emptySet() : set;
+		return set;
 	}
 
 	<C> List<C> readList(final JsonReader reader, final Class<C> clazz) throws IOException {
 		List<C> list = new ArrayList<>();
 		readCollection(reader, clazz, list);
-		return list == null ? Collections.emptyList() : list;
+		return list;
 	}
 
 	<C> void readCollection(final JsonReader reader, final Class<C> clazz, Collection<C> destiny) throws IOException {

@@ -1,7 +1,8 @@
 package pt.davidafsilva.jtrakt.model;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -29,8 +30,8 @@ public class TvShow extends BaseModel {
 	private boolean ended;
 	private TvShowArt images;
 	private Rating ratings;
-	private Set<Genre> genres = Collections.emptySet();
-	private List<TvShowSeason> seasons = Collections.emptyList();
+	private Set<Genre> genres = new HashSet<>();
+	private List<TvShowSeason> seasons = new ArrayList<>();
 
 	public String getTitle() {
 		return title;
