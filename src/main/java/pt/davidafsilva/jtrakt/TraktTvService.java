@@ -4,6 +4,7 @@ import pt.davidafsilva.jtrakt.model.Genre;
 import pt.davidafsilva.jtrakt.model.TvShow;
 import pt.davidafsilva.jtrakt.model.TvShowEpisodeSummary;
 import pt.davidafsilva.jtrakt.model.TvShowSeason;
+import pt.davidafsilva.jtrakt.model.TvShowSeasonEpisode;
 import pt.davidafsilva.jtrakt.model.TvShowSummary;
 import retrofit.http.GET;
 import retrofit.http.Path;
@@ -45,7 +46,11 @@ public interface TraktTvService {
 	List<TvShowSeason> getShowSeasons(@Path("identifier") String showIdentifier);
 
 	@GET("/show/season.json/{apiKey}/{identifier}/{season}")
-	List<TvShowEpisodeSummary> getShowEpisodes(@Path("identifier") String showIdentifier,
+	List<TvShowSeasonEpisode> getShowEpisodes(@Path("identifier") String showIdentifier,
                                                @Path("season") int seasonNumber);
 
+    @GET("/show/episode/summary.json/{apiKey}/{identifier}/{season}/{episode}")
+    TvShowEpisodeSummary getShowEpisodeSummary(@Path("identifier") String showIdentifier,
+                                               @Path("season") int seasonNumber,
+                                               @Path("episode") int episodeNumber);
 }

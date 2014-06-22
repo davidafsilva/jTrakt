@@ -5,7 +5,7 @@ import com.google.gson.stream.JsonReader;
 import pt.davidafsilva.jtrakt.internal.cache.DeserializationCache;
 import pt.davidafsilva.jtrakt.model.Rating;
 import pt.davidafsilva.jtrakt.model.TvShowEpisode;
-import pt.davidafsilva.jtrakt.model.TvShowEpisodeSummary;
+import pt.davidafsilva.jtrakt.model.TvShowSeasonEpisode;
 import pt.davidafsilva.jtrakt.model.TvShowSeason;
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ import java.time.ZoneOffset;
  *
  * @author David Silva
  */
-public class TvShowEpisodeSummaryTypeAdpater extends TvShowEpisodeTypeAdapter {
+public class TvShowSeasonEpisodeTypeAdapter extends TvShowEpisodeTypeAdapter {
 
 	/**
 	 * Default constructor for the type dater
@@ -24,7 +24,7 @@ public class TvShowEpisodeSummaryTypeAdpater extends TvShowEpisodeTypeAdapter {
 	 * @param gson
 	 * 		the GSON object
 	 */
-	TvShowEpisodeSummaryTypeAdpater(final Gson gson) {
+	TvShowSeasonEpisodeTypeAdapter(final Gson gson) {
 		super(gson);
 	}
 
@@ -34,8 +34,8 @@ public class TvShowEpisodeSummaryTypeAdpater extends TvShowEpisodeTypeAdapter {
 	}
 
 	@Override
-	TvShowEpisodeSummary createInstance() {
-		return new TvShowEpisodeSummary();
+    TvShowSeasonEpisode createInstance() {
+		return new TvShowSeasonEpisode();
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class TvShowEpisodeSummaryTypeAdpater extends TvShowEpisodeTypeAdapter {
 			super.updateFieldValue(object, fieldName, in);
 		}
 
-		TvShowEpisodeSummary episodeSummary = (TvShowEpisodeSummary) object;
+		TvShowSeasonEpisode episodeSummary = (TvShowSeasonEpisode) object;
 		if (field != null) {
 			switch (field) {
 				case FIRST_AIRED:

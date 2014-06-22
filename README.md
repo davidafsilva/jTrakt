@@ -1,10 +1,5 @@
 <h3>TODO:</h3>
 
-<b>TV Related:</b>
-<ol>
-<li>Episode Summary: <a href="http://trakt.tv/api-docs/show-episode-summary">show-episode-summary</a></li>
-</ol>
-
 <b>Movie Related:</b>
 <ol>
 <li>TBD</li>

@@ -7,6 +7,7 @@ import pt.davidafsilva.jtrakt.model.Genre;
 import pt.davidafsilva.jtrakt.model.TvShow;
 import pt.davidafsilva.jtrakt.model.TvShowEpisodeSummary;
 import pt.davidafsilva.jtrakt.model.TvShowSeason;
+import pt.davidafsilva.jtrakt.model.TvShowSeasonEpisode;
 import pt.davidafsilva.jtrakt.model.TvShowSummary;
 
 import java.util.List;
@@ -70,8 +71,19 @@ public abstract class TraktTvServiceTest {
 
 	@Test
 	public void testShowEpisodes() throws Exception {
-		final List<TvShowEpisodeSummary> episodes = service.getShowEpisodes("277165", 1);
+		final List<TvShowSeasonEpisode> episodes = service.getShowEpisodes("277165", 1);
 		assertThat("No episodes found for \"Silicon Valley\", season one", episodes, notNullValue());
 		assertThat("Excepted 8 episodes for season one of \"Silicon Valley\"", episodes.size(), is(8));
 	}
+
+    @Test
+    public void testShowEpisodeSummary() throws Exception {
+        final TvShowEpisodeSummary episodeSummary = service.getShowEpisodeSummary("277165", 1, 1);
+        assertThat("No episode summary for \"Silicon Valley\", season one, episode one.", episodeSummary, notNullValue());
+        assertThat("No show found in episode summary", episodeSummary.getShow(), notNullValue());
+        assertThat(episodeSummary.getShow().getTitle(), is("Silicon Valley"));
+        assertThat("No episode found in episode summary", episodeSummary.getEpisode(), notNullValue());
+        assertThat(episodeSummary.getEpisode().getNumber(), is(1));
+        assertThat(episodeSummary.getEpisode().getSeason().getNumber(), is(1));
+    }
 }

@@ -241,6 +241,32 @@ public class OfflineTraktTvServiceTest extends TraktTvServiceTest {
 					       "licon-valley/season/1/episode/8\",\"screen\":\"http://slurm.trakt.us/images/episodes/23332" +
 					       "-1-8.16.jpg\",\"images\":{\"screen\":\"http://slurm.trakt.us/images/episodes/23332-1-8.16" +
 					       ".jpg\"},\"ratings\":{\"percentage\":88,\"votes\":688,\"loved\":686,\"hated\":2}}]")
+                    // show episode summary
+                    .whenRequest("/show/episode/summary.json/apiKey/277165/1/1")
+                    .reply("{\"show\":{\"title\":\"Silicon Valley\",\"year\":2014,\"url\":\"http://trakt.tv/show/silic" +
+                           "on-valley\",\"first_aired\":1396846800,\"first_aired_iso\":\"2014-04-06T22:00:00-04:" +
+                           "00\",\"first_aired_utc\":1396836000,\"country\":\"United States\",\"overview\":\"In the" +
+                           " high-tech gold rush of modern Silicon Valley, the people most qualified to succeed are " +
+                           "the least capable of handling success. \\n\\nA comedy partially inspired by Mike Judge's" +
+                           " own experiences as a Silicon Valley engineer in the late 1980s. \",\"runtime\":30,\"netw" +
+                           "ork\":\"HBO\",\"air_day\":\"Sunday\",\"air_time\":\"10:00pm\",\"certification\":\"TV-1" +
+                           "4\",\"imdb_id\":\"tt2575988\",\"tvdb_id\":277165,\"tvrage_id\":33759,\"images\":{\"post" +
+                           "er\":\"http://slurm.trakt.us/images/posters/23332.16.jpg\",\"fanart\":\"http://slurm.tr" +
+                           "akt.us/images/fanart/23332.16.jpg\",\"banner\":\"http://slurm.trakt.us/images/banners/2" +
+                           "3332.16.jpg\"},\"ratings\":{\"percentage\":82,\"votes\":837,\"loved\":796,\"hated\":41" +
+                           "},\"genres\":[\"Comedy\"]},\"episode\":{\"season\":1,\"number\":1,\"tvdb_id\":4765079,\"i" +
+                           "mdb_id\":\"tt3222784\",\"title\":\"Minimum Viable Product\",\"overview\":\"Attending an " +
+                           "elaborate launch party, Richard and his computer programmer friends - Big Head, Dinesh a" +
+                           "nd Gilfoyle - dream of making it big. Instead, they're living in the communal Hacker Hos" +
+                           "tel owned by former programmer Erlich, who gets to claim ten percent of anything they in" +
+                           "vent there. When it becomes clear that Richard has developed a powerful compression algo" +
+                           "rithm for his website, Pied Piper, he finds himself courted by Gavin Belson, his egomani" +
+                           "acal corporate boss, who offers a $10 million buyout by his firm, Hooli. But Richard hold" +
+                           "s back when well-known investor Peter Gregory makes a counteroffer. \",\"url\":\"http://t" +
+                           "rakt.tv/show/silicon-valley/season/1/episode/1\",\"first_aired\":1396846800,\"first_aire" +
+                           "d_iso\":\"2014-04-06T22:00:00-04:00\",\"first_aired_utc\":1396836000,\"images\":{\"scre" +
+                           "en\":\"http://slurm.trakt.us/images/episodes/23332-1-1.16.jpg\"},\"ratings\":{\"percent" +
+                           "age\":79,\"votes\":1176,\"loved\":1129,\"hated\":47}}}")
 					// build
                     .build());
 	}
