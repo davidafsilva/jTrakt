@@ -1,10 +1,8 @@
 package pt.davidafsilva.jtrakt.internal.response;
 
 import com.google.gson.Gson;
-import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
-import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -14,18 +12,13 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 /**
  * TODO: change me
  *
  * @author David Silva
  */
-abstract class AbstractObjectTypeAdapter<T> extends TypeAdapter<T> {
-
-	protected Logger logger = Logger.getLogger(getClass().getSimpleName());
-
-	protected final Gson gson;
+abstract class ObjectTypeAdapter<T> extends BaseTypeAdapter<T> {
 
 	/**
 	 * Default constructor for the type dater
@@ -33,107 +26,45 @@ abstract class AbstractObjectTypeAdapter<T> extends TypeAdapter<T> {
 	 * @param gson
 	 * 		the GSON object
 	 */
-	AbstractObjectTypeAdapter(final Gson gson) {
-		this.gson = gson;
+	ObjectTypeAdapter(final Gson gson) {
+		super(gson);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final void write(JsonWriter out, T value) throws IOException {
-		if (value == null) {
-			out.nullValue();
-		} else {
-			writeObject(out, value);
-		}
-	}
-
-	/**
-	 * Writes the given (not-null) object to the JSON writer stream
-	 *
-	 * @param out
-	 * 		the output stream
-	 * @param value
-	 * 		the object to be written
-	 */
-	@SuppressWarnings("unused")
-	protected void writeObject(final JsonWriter out, final T value) {
-		// we don't need write() for now..
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final T read(JsonReader in) throws IOException {
-		logger.fine(String.format("reading object: %s..", getClass().getSimpleName().replace("TypeAdapter", "")));
-		final JsonToken token = in.peek();
-		final T obj;
-		switch (token) {
-			case NULL:
-				obj = null;
-				in.nextNull();
-				break;
-			default:
-				obj = createInstance();
-				handleToken(in, token, obj);
-				break;
-		}
-
-		onReadFinished(obj);
-
-		return obj;
-	}
-
-	/**
-	 * This method is called whenever a read is indeed finalized.
-	 *
-	 * @param object
-	 * 		the read object
-	 */
-	void onReadFinished(final T object) {
-		// do nothing, by default
-	}
-
-	/**
-	 * Handles the given JSON token
-	 *
-	 * @param in
-	 * 		the JSON reader stream where to read the value from
-	 * @param token
-	 * 		the JSON token
-	 * @param obj
-	 * 		the concrete object instance
-	 * @throws IOException
-	 * 		if an errors occurs while reading the data from the JSON stream
-	 * @throws IllegalStateException
-	 * 		if an invalid JSON token is received
-	 */
+    /**
+     * {@inheritDoc}
+     */
 	protected void handleToken(JsonReader in, JsonToken token, T obj) throws IOException {
+        int fieldsNumber = 0;
+        int errorFieldsDetected = 0;
 		switch (token) {
 			case BEGIN_OBJECT:
 				in.beginObject();
 				while (in.hasNext()) {
-					updateFieldValue(obj, in.nextName(), in);
+                    final String fieldName = in.nextName();
+
+                    // detect error responses
+                    if ("status".equals(fieldName)) {
+                        errorFieldsDetected++;
+                    } else if ("error".equals(fieldName)) {
+                        errorFieldsDetected++;
+                    }
+
+					updateFieldValue(obj, fieldName, in);
+                    fieldsNumber++;
 				}
 				in.endObject();
 				break;
 			default:
 				throw new IllegalStateException(String.format("Invalid JSON token received: %s", token.name()));
 		}
+
+        if (errorFieldsDetected == fieldsNumber) {
+            logger.warning("error detected!");
+            throw new NoResultError();
+        }
 	}
 
 	// abstract methods
-
-	/**
-	 * Creates and returns a specific instance of the object type
-	 * being deserialized.
-	 *
-	 * @return the new object instance
-	 */
-	abstract T createInstance();
 
 	/**
 	 * Updates the given field value on the object instance
@@ -168,10 +99,6 @@ abstract class AbstractObjectTypeAdapter<T> extends TypeAdapter<T> {
 	LocalDateTime readDateTimeTimestamp(final JsonReader reader, final ZoneOffset offset) throws IOException {
 		final Long timestamp = readLong(reader);
 		return timestamp == null ? null : LocalDateTime.ofEpochSecond(timestamp, 0, offset);
-	}
-
-	<C> C readObject(final JsonReader reader, Class<C> clazz) throws IOException {
-		return gson.getAdapter(clazz).nullSafe().read(reader);
 	}
 
 	<C> Set<C> readSet(final JsonReader reader, final Class<C> clazz) throws IOException {

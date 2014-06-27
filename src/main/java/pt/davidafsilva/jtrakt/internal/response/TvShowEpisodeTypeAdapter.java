@@ -12,7 +12,7 @@ import java.io.IOException;
  *
  * @author David Silva
  */
-public class TvShowEpisodeTypeAdapter extends AbstractObjectTypeAdapter<TvShowEpisode> {
+public class TvShowEpisodeTypeAdapter extends ObjectTypeAdapter<TvShowEpisode> {
 
 	/**
 	 * Default constructor for the type dater

@@ -21,7 +21,7 @@ import pt.davidafsilva.jtrakt.model.TvShowSummary;
  *
  * @author David Silva
  */
-public enum ObjectFactory implements TypeAdapterFactory {
+public enum ObjectTypeAdapterFactory implements TypeAdapterFactory {
 	INSTANCE;
 
 	@Override

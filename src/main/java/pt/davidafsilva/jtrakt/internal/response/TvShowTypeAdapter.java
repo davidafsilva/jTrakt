@@ -56,7 +56,7 @@ import java.time.ZoneOffset;
  *
  * @author David Silva
  */
-public class TvShowTypeAdapter extends AbstractObjectTypeAdapter<TvShow> {
+public class TvShowTypeAdapter extends ObjectTypeAdapter<TvShow> {
 
 	static final ZoneOffset PDT_OFFSET = ZoneOffset.ofHours(-7);
 

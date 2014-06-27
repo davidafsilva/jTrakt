@@ -9,6 +9,12 @@ public class OnlineTraktTvServiceTest extends TraktTvServiceTest {
 
 	@Override
 	TraktTvService setupService() {
-		return TraktServiceFactory.INSTANCE.createTvService("0473e5d7231ddeab7d1262a9dadaa457");
+		return TraktTestServiceFactory.getInstance().createTvService("0473e5d7231ddeab7d1262a9dadaa457");
 	}
+
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        Thread.sleep(500); /** sleep 1s **/;
+    }
 }

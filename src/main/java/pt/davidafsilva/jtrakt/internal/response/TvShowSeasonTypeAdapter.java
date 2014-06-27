@@ -14,7 +14,7 @@ import java.io.IOException;
  *
  * @author David Silva
  */
-public class TvShowSeasonTypeAdapter extends AbstractObjectTypeAdapter<TvShowSeason> {
+public class TvShowSeasonTypeAdapter extends ObjectTypeAdapter<TvShowSeason> {
 
 	/**
 	 * Default constructor for the type dater

@@ -1,5 +1,6 @@
 package pt.davidafsilva.jtrakt;
 
+import pt.davidafsilva.jtrakt.exception.NoResultsFoundException;
 import pt.davidafsilva.jtrakt.model.Genre;
 import pt.davidafsilva.jtrakt.model.TvShow;
 import pt.davidafsilva.jtrakt.model.TvShowEpisodeSummary;
@@ -36,21 +37,26 @@ public interface TraktTvService {
 	List<Genre> getGenres();
 
 	@GET("/show/summary.json/{apiKey}/{identifier}")
-	TvShowSummary getShowSummary(@Path("identifier") String showIdentifier);
+	TvShowSummary getShowSummary(@Path("identifier") String showIdentifier)
+            throws NoResultsFoundException;
 
 	@GET("/show/summary.json/{apiKey}/{identifier}/{extended}")
 	TvShowSummary getShowSummary(@Path("identifier") String showIdentifier,
-	                             @Path("extended") boolean extended);
+	                             @Path("extended") boolean extended)
+            throws NoResultsFoundException;
 
 	@GET("/show/seasons.json/{apiKey}/{identifier}")
-	List<TvShowSeason> getShowSeasons(@Path("identifier") String showIdentifier);
+	List<TvShowSeason> getShowSeasons(@Path("identifier") String showIdentifier)
+            throws NoResultsFoundException;
 
 	@GET("/show/season.json/{apiKey}/{identifier}/{season}")
 	List<TvShowSeasonEpisode> getShowEpisodes(@Path("identifier") String showIdentifier,
-                                               @Path("season") int seasonNumber);
+                                               @Path("season") int seasonNumber)
+            throws NoResultsFoundException;
 
     @GET("/show/episode/summary.json/{apiKey}/{identifier}/{season}/{episode}")
     TvShowEpisodeSummary getShowEpisodeSummary(@Path("identifier") String showIdentifier,
                                                @Path("season") int seasonNumber,
-                                               @Path("episode") int episodeNumber);
+                                               @Path("episode") int episodeNumber)
+            throws NoResultsFoundException;
 }

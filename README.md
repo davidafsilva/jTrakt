@@ -10,12 +10,6 @@
 <li>TBD</li>
 </ol>
 
-<b>Handle "no results" when querying the API</b>, solutions:
-<ol>
-	<li>wrap responses</li>
-	<li>throw exceptions</li>
-</ol>
-
 <b>JavaDoc:</b>
 <ol>
 <li>Pretty much all of it!</li>

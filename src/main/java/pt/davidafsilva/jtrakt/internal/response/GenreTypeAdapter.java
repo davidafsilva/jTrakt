@@ -12,7 +12,7 @@ import java.io.IOException;
  *
  * @author David Silva
  */
-public class GenreTypeAdapter extends AbstractObjectTypeAdapter<Genre> {
+public class GenreTypeAdapter extends ObjectTypeAdapter<Genre> {
 
 	/**
 	 * Default constructor for the type dater

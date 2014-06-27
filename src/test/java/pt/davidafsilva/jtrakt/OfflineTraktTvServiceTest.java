@@ -2,14 +2,19 @@ package pt.davidafsilva.jtrakt;
 
 import pt.davidafsilva.jtrakt.client.ClientBuilder;
 
+import java.net.HttpURLConnection;
+
 public class OfflineTraktTvServiceTest extends TraktTvServiceTest {
 
 	@Override
 	TraktTvService setupService() {
-		return TraktTestServiceFactory.INSTANCE.createTvService(
+		return TraktTestServiceFactory.getInstance().createTvService(
+                "apiKey",
 				new ClientBuilder()
 					// search show
 					.whenRequest("/search/shows.json/apiKey")
+                    .withParameter("query", "Silicon Valley")
+                    .withParameter("limit", "1")
                     .reply("[{\"title\":\"Silicon Valley\",\"year\":2014," +
                           "\"url\":\"http://trakt.tv/show/silicon-valley\",\"first_aired\":1396767600," +
                           "\"country\":\"United States\",\"overview\":\"In the high-tech gold rush of " +
@@ -29,6 +34,10 @@ public class OfflineTraktTvServiceTest extends TraktTvServiceTest {
                           "\"number\":5},{\"season\":1,\"number\":4},{\"season\":1,\"number\":3}," +
                           "{\"season\":1,\"number\":2},{\"season\":1,\"number\":1}]},{\"season\":0," +
                           "\"episodes\":[{\"season\":0,\"number\":1}]}]}]")
+                    // search show with no results
+                    .whenRequest("/search/shows.json/apiKey")
+                    .withParameter("query", "noooooooresults")
+                    .reply("[]")
                     // get genres
 					.whenRequest("/genres/shows.json/apiKey")
 					.reply("[{\"name\":\"Action\",\"slug\":\"action\"},{\"name\":\"Adventure\"," +
@@ -151,6 +160,10 @@ public class OfflineTraktTvServiceTest extends TraktTvServiceTest {
 					       "{\"name\":\"Matt Ross\",\"character\":\"Gavin Belson\"," +
 					       "\"images\":{\"headshot\":\"http://slurm.trakt.us/images/avatar-large.jpg\"}}]}," +
 					       "\"genres\":[\"Comedy\"]}")
+                    // show summary with no results
+                    .whenRequest("/show/summary.json/apiKey/0")
+                    .code(HttpURLConnection.HTTP_NOT_FOUND)
+                    .reply("{\"status\":\"failure\",\"error\":\"show not found\"}")
 					// show seasons
 					.whenRequest("/show/seasons.json/apiKey/277165")
 					.reply("[{\"season\":1,\"episodes\":8,\"url\":\"http://trakt.tv/show/silicon-valley/season/1\"," +
@@ -159,7 +172,11 @@ public class OfflineTraktTvServiceTest extends TraktTvServiceTest {
 					       "{\"season\":0,\"episodes\":1,\"url\":\"http://trakt.tv/show/silicon-valley/specials\"," +
 					       "\"poster\":\"http://slurm.trakt.us/images/seasons/23332-0.16.jpg\"," +
 					       "\"images\":{\"poster\":\"http://slurm.trakt.us/images/seasons/23332-0.16.jpg\"}}]")
-					// show episodes
+                    // show seasons with no results
+                    .whenRequest("/show/seasons.json/apiKey/0")
+                    .code(HttpURLConnection.HTTP_NOT_FOUND)
+                    .reply("{\"status\":\"failure\",\"error\":\"show not found\"}")
+                    // show episodes
 					.whenRequest("/show/season.json/apiKey/277165/1")
 					.reply("[{\"season\":1,\"episode\":1,\"number\":1,\"tvdb_id\":4765079,\"title\":\"Minimum Viable " +
 					       "Product\",\"overview\":\"Attending an elaborate launch party, Richard and his computer " +
@@ -241,6 +258,13 @@ public class OfflineTraktTvServiceTest extends TraktTvServiceTest {
 					       "licon-valley/season/1/episode/8\",\"screen\":\"http://slurm.trakt.us/images/episodes/23332" +
 					       "-1-8.16.jpg\",\"images\":{\"screen\":\"http://slurm.trakt.us/images/episodes/23332-1-8.16" +
 					       ".jpg\"},\"ratings\":{\"percentage\":88,\"votes\":688,\"loved\":686,\"hated\":2}}]")
+                    // show episodes with invalid show
+                    .whenRequest("/show/season.json/apiKey/0/1")
+                    .code(HttpURLConnection.HTTP_NOT_FOUND)
+                    .reply("{\"status\":\"failure\",\"error\":\"show not found\"}")
+                    // show episodes with invalid season
+                    .whenRequest("/show/season.json/apiKey/277165/999")
+                    .reply("[]")
                     // show episode summary
                     .whenRequest("/show/episode/summary.json/apiKey/277165/1/1")
                     .reply("{\"show\":{\"title\":\"Silicon Valley\",\"year\":2014,\"url\":\"http://trakt.tv/show/silic" +
@@ -267,7 +291,19 @@ public class OfflineTraktTvServiceTest extends TraktTvServiceTest {
                            "d_iso\":\"2014-04-06T22:00:00-04:00\",\"first_aired_utc\":1396836000,\"images\":{\"scre" +
                            "en\":\"http://slurm.trakt.us/images/episodes/23332-1-1.16.jpg\"},\"ratings\":{\"percent" +
                            "age\":79,\"votes\":1176,\"loved\":1129,\"hated\":47}}}")
-					// build
+                    // show episode summary with invalid show
+                    .whenRequest("/show/episode/summary.json/apiKey/0/1/1")
+                    .code(HttpURLConnection.HTTP_NOT_FOUND)
+                    .reply("{\"status\":\"failure\",\"error\":\"show not found\"}")
+                    // show episode summary with invalid season
+                    .whenRequest("/show/episode/summary.json/apiKey/277165/999/1")
+                    .code(HttpURLConnection.HTTP_NOT_FOUND)
+                    .reply("{\"status\":\"failure\",\"error\":\"episode not found\"}")
+                    // show episode summary with invalid episode
+                    .whenRequest("/show/episode/summary.json/apiKey/277165/1/999")
+                    .code(HttpURLConnection.HTTP_BAD_REQUEST)
+                    .reply("{\"status\":\"failure\",\"error\":\"episode not found\"}")
+                    // build
                     .build());
 	}
 

@@ -12,7 +12,7 @@ import java.io.IOException;
  *
  * @author David Silva
  */
-public class ActorTypeAdapter extends AbstractObjectTypeAdapter<Actor> {
+public class ActorTypeAdapter extends ObjectTypeAdapter<Actor> {
 
 	/**
 	 * Default constructor for the type dater

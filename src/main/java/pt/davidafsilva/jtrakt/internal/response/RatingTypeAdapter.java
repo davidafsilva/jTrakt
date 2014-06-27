@@ -11,7 +11,7 @@ import java.io.IOException;
  *
  * @author David Silva
  */
-public class RatingTypeAdapter extends AbstractObjectTypeAdapter<Rating> {
+public class RatingTypeAdapter extends ObjectTypeAdapter<Rating> {
 
 	/**
 	 * Default constructor for the type dater

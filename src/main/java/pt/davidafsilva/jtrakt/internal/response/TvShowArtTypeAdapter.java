@@ -11,7 +11,7 @@ import java.io.IOException;
  *
  * @author David Silva
  */
-public class TvShowArtTypeAdapter extends AbstractObjectTypeAdapter<TvShowArt> {
+public class TvShowArtTypeAdapter extends ObjectTypeAdapter<TvShowArt> {
 
 	/**
 	 * Default constructor for the type dater
