@@ -10,18 +10,21 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 /**
- * TODO: change me
+ * This is the base type adapter for all of the deserialization adapters. It
+ * provides a set of common functionality between all of them.
  *
  * @author David Silva
  */
-public abstract class BaseTypeAdapter<T> extends TypeAdapter<T> {
+abstract class BaseTypeAdapter<T> extends TypeAdapter<T> {
 
+    // logger
     protected Logger logger = Logger.getLogger(getClass().getSimpleName());
 
+    // gson object
     protected final Gson gson;
 
     /**
-     * Default constructor for the type dater
+     * Default constructor for the type adapter
      *
      * @param gson
      *         the GSON object
@@ -34,8 +37,9 @@ public abstract class BaseTypeAdapter<T> extends TypeAdapter<T> {
      * {@inheritDoc}
      */
     @Override
-    public final void write(JsonWriter out, T value) throws IOException {
-        // we don't need write() for now..
+    public final void write(final JsonWriter out, final T value)
+            throws IOException {
+        // we don't need write(), for now at least..
         throw new UnsupportedOperationException();
     }
 
@@ -43,9 +47,11 @@ public abstract class BaseTypeAdapter<T> extends TypeAdapter<T> {
      * {@inheritDoc}
      */
     @Override
-    public final T read(JsonReader in) throws IOException {
+    public final T read(final JsonReader in) throws IOException {
         try {
-            logger.fine(String.format("reading object: %s..", getClass().getSimpleName().replace("TypeAdapter", "")));
+            logger.fine(String.format("reading object: %s..",
+                                      getClass().getSimpleName()
+                                                .replace("TypeAdapter", "")));
             final JsonToken token = in.peek();
             final T obj;
             switch (token) {
@@ -68,7 +74,7 @@ public abstract class BaseTypeAdapter<T> extends TypeAdapter<T> {
     }
 
     /**
-     * This method is called whenever a read is indeed finalized.
+     * This method is called whenever a read is {@code successfully} finalized.
      *
      * @param object
      *         the read object
@@ -86,7 +92,7 @@ public abstract class BaseTypeAdapter<T> extends TypeAdapter<T> {
      *
      * By default, this method returns {@code null}.
      *
-     * @return the object return when a result error is detected
+     * @return the object to return when a result error is detected
      */
     T getObjectOnResultError() {
         return null;
@@ -95,14 +101,15 @@ public abstract class BaseTypeAdapter<T> extends TypeAdapter<T> {
     // abstract methods
 
     /**
-     * Handles the given JSON token
+     * Handles the given JSON token and applies the changes to the
+     * object being deserialized, denoted by {@code obj}.
      *
      * @param in
      *         the JSON reader stream where to read the value from
      * @param token
      *         the JSON token
      * @param obj
-     *         the concrete object instance
+     *         the concrete object instance that is being deserialized
      * @throws IOException
      *         if an errors occurs while reading the data from the JSON stream
      * @throws IllegalStateException
@@ -110,7 +117,9 @@ public abstract class BaseTypeAdapter<T> extends TypeAdapter<T> {
      * @throws NoResultError
      *         if an error response is detected while parsing the JSON tokens
      */
-    abstract void handleToken(JsonReader in, JsonToken token, T obj) throws IOException;
+    abstract void handleToken(final JsonReader in, final JsonToken token,
+                              final T obj)
+            throws IOException;
 
     /**
      * Creates and returns a specific instance of the object type
@@ -123,7 +132,21 @@ public abstract class BaseTypeAdapter<T> extends TypeAdapter<T> {
 
     // auxiliary methods
 
-    <C> C readObject(final JsonReader reader, Class<C> clazz) throws IOException {
+    /**
+     * Reads an object of the given type from the JSON reader stream.
+     *
+     * @param reader
+     *         the JSON stream
+     * @param clazz
+     *         the class of the object
+     * @param <C>
+     *         the type of the object
+     * @return the read object
+     * @throws IOException
+     *         if an errors occurs while reading the data from the JSON stream
+     */
+    <C> C readObject(final JsonReader reader, final Class<C> clazz)
+            throws IOException {
         return gson.getAdapter(clazz).nullSafe().read(reader);
     }
 

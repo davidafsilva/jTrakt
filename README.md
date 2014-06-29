@@ -14,3 +14,8 @@
 <ol>
 <li>Pretty much all of it!</li>
 </ol>
+
+<b>Improves:</b>
+<ol>
+<li>Refactor field deserialization per object</li>
+</ol>

@@ -8,14 +8,14 @@ import pt.davidafsilva.jtrakt.model.People;
 import java.io.IOException;
 
 /**
- * TODO: change me
+ * Deserialization entity for {@link People} objects.
  *
  * @author David Silva
  */
-public class PeopleTypeAdapter extends ObjectTypeAdapter<People> {
+final class PeopleTypeAdapter extends ObjectTypeAdapter<People> {
 
 	/**
-	 * Default constructor for the type dater
+	 * Default constructor for the type adapter
 	 *
 	 * @param gson
 	 * 		the GSON object

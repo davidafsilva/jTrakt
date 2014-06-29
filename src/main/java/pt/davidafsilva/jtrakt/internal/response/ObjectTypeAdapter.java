@@ -14,32 +14,43 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * TODO: change me
+ * <p>
+ * The base object deserialization entity. It handles most of the
+ * deserialization logic of our object model, delegating only the concrete
+ * object fields deserialization.
+ * </p>
+ * <p>
+ * Also, it provides a set of much needed functionality to be used by
+ * concrete object type adapters, such as auxiliary reader methods.
+ * </p>
  *
  * @author David Silva
  */
 abstract class ObjectTypeAdapter<T> extends BaseTypeAdapter<T> {
 
-	/**
-	 * Default constructor for the type dater
-	 *
-	 * @param gson
-	 * 		the GSON object
-	 */
-	ObjectTypeAdapter(final Gson gson) {
-		super(gson);
-	}
+    /**
+     * Default constructor for the object type adapter
+     *
+     * @param gson
+     *         the GSON object
+     */
+    ObjectTypeAdapter(final Gson gson) {
+        super(gson);
+    }
 
     /**
      * {@inheritDoc}
      */
-	protected void handleToken(JsonReader in, JsonToken token, T obj) throws IOException {
+    @Override
+    protected void handleToken(final JsonReader in, final JsonToken token,
+                               final T obj)
+            throws IOException {
         int fieldsNumber = 0;
         int errorFieldsDetected = 0;
-		switch (token) {
-			case BEGIN_OBJECT:
-				in.beginObject();
-				while (in.hasNext()) {
+        switch (token) {
+            case BEGIN_OBJECT:
+                in.beginObject();
+                while (in.hasNext()) {
                     final String fieldName = in.nextName();
 
                     // detect error responses
@@ -49,75 +60,179 @@ abstract class ObjectTypeAdapter<T> extends BaseTypeAdapter<T> {
                         errorFieldsDetected++;
                     }
 
-					updateFieldValue(obj, fieldName, in);
+                    updateFieldValue(obj, fieldName, in);
                     fieldsNumber++;
-				}
-				in.endObject();
-				break;
-			default:
-				throw new IllegalStateException(String.format("Invalid JSON token received: %s", token.name()));
-		}
+                }
+                in.endObject();
+                break;
+            default:
+                throw new IllegalStateException(
+                        String.format("Invalid JSON token received: %s",
+                                      token.name()));
+        }
 
+        // check if we detected an error
         if (errorFieldsDetected == fieldsNumber) {
             logger.warning("error detected!");
             throw new NoResultError();
         }
-	}
+    }
 
-	// abstract methods
+    // abstract methods
 
-	/**
-	 * Updates the given field value on the object instance
-	 *
-	 * @param object
-	 * 		the object where to updated the field value
-	 * @param fieldName
-	 * 		the name of the field being updated
-	 * @param in
-	 * 		the JSON reader stream where to read the value from
-	 */
-	abstract void updateFieldValue(T object, String fieldName, JsonReader in) throws IOException;
+    /**
+     * Updates the given field value on the object instance
+     *
+     * @param object
+     *         the object where to updated the field value
+     * @param fieldName
+     *         the name of the field being updated
+     * @param in
+     *         the JSON reader stream where to read the value from
+     */
+    abstract void updateFieldValue(T object, String fieldName, JsonReader in)
+            throws IOException;
 
-	// auxiliary methods
+    // auxiliary methods
 
-	String readString(final JsonReader reader) throws IOException {
-		return readObject(reader, String.class);
-	}
+    /**
+     * Reads a {@link String} from the given JSON stream
+     *
+     * @param reader
+     *         the JSON stream
+     * @return the read String
+     * @throws IOException
+     *         if an error occurs while reading the object from the stream
+     */
+    String readString(final JsonReader reader) throws IOException {
+        return readObject(reader, String.class);
+    }
 
-	Integer readInt(final JsonReader reader) throws IOException {
-		return readObject(reader, int.class);
-	}
+    /**
+     * Reads an {@link Integer} from the given JSON stream
+     *
+     * @param reader
+     *         the JSON stream
+     * @return the read Integer
+     * @throws IOException
+     *         if an error occurs while reading the object from the stream
+     */
+    Integer readInt(final JsonReader reader) throws IOException {
+        return readObject(reader, Integer.class);
+    }
 
-	Boolean readBoolean(final JsonReader reader) throws IOException {
-		return readObject(reader, boolean.class);
-	}
+    /**
+     * Reads a {@link Boolean} from the given JSON stream
+     *
+     * @param reader
+     *         the JSON stream
+     * @return the read Boolean
+     * @throws IOException
+     *         if an error occurs while reading the object from the stream
+     */
+    Boolean readBoolean(final JsonReader reader) throws IOException {
+        return readObject(reader, Boolean.class);
+    }
 
-	Long readLong(final JsonReader reader) throws IOException {
-		return readObject(reader, long.class);
-	}
+    /**
+     * Reads a {@link Long} from the given JSON stream
+     *
+     * @param reader
+     *         the JSON stream
+     * @return the read Long
+     * @throws IOException
+     *         if an error occurs while reading the object from the stream
+     */
+    Long readLong(final JsonReader reader) throws IOException {
+        return readObject(reader, Long.class);
+    }
 
-	LocalDateTime readDateTimeTimestamp(final JsonReader reader, final ZoneOffset offset) throws IOException {
-		final Long timestamp = readLong(reader);
-		return timestamp == null ? null : LocalDateTime.ofEpochSecond(timestamp, 0, offset);
-	}
+    /**
+     * Reads a {@link LocalDateTime} from the given JSON stream with the
+     * given {@link ZoneOffset offset}.
+     *
+     * @param reader
+     *         the JSON stream
+     * @param offset
+     *         the zone offset of the date
+     * @return the read date time
+     * @throws IOException
+     *         if an error occurs while reading the object from the stream
+     */
+    LocalDateTime readDateTimeTimestamp(final JsonReader reader,
+                                        final ZoneOffset offset)
+            throws IOException {
+        final Long timestamp = readLong(reader);
+        return timestamp == null ?
+               null :
+               LocalDateTime.ofEpochSecond(timestamp, 0, offset);
+    }
 
-	<C> Set<C> readSet(final JsonReader reader, final Class<C> clazz) throws IOException {
-		Set<C> set = new HashSet<>();
-		readCollection(reader, clazz, set);
-		return set;
-	}
+    /**
+     * Reads a {@link Set} of {@code C} objects from the given JSON stream
+     *
+     * @param reader
+     *         the JSON stream
+     * @param clazz
+     *         the generic class type of the collection
+     * @param <C>
+     *         the type of objects to be read by the stream (stored in the
+     *         collection)
+     * @return the read set
+     * @throws IOException
+     *         if an error occurs while reading the collection from the stream
+     */
+    <C> Set<C> readSet(final JsonReader reader, final Class<C> clazz)
+            throws IOException {
+        Set<C> set = new HashSet<>();
+        readCollection(reader, clazz, set);
+        return set;
+    }
 
-	<C> List<C> readList(final JsonReader reader, final Class<C> clazz) throws IOException {
-		List<C> list = new ArrayList<>();
-		readCollection(reader, clazz, list);
-		return list;
-	}
+    /**
+     * Reads a {@link List} of {@code C} objects from the given JSON stream
+     *
+     * @param reader
+     *         the JSON stream
+     * @param clazz
+     *         the generic class type of the collection
+     * @param <C>
+     *         the type of objects to be read by the stream (stored in the
+     *         collection)
+     * @return the read list
+     * @throws IOException
+     *         if an error occurs while reading the collection from the stream
+     */
+    <C> List<C> readList(final JsonReader reader, final Class<C> clazz)
+            throws IOException {
+        List<C> list = new ArrayList<>();
+        readCollection(reader, clazz, list);
+        return list;
+    }
 
-	<C> void readCollection(final JsonReader reader, final Class<C> clazz, Collection<C> destiny) throws IOException {
-		reader.beginArray();
-		while (reader.hasNext()) {
-			destiny.add(gson.getAdapter(clazz).read(reader));
-		}
-		reader.endArray();
-	}
+    /**
+     * Reads the objects associated with a {@link Collection} from the given
+     * JSON stream
+     *
+     * @param reader
+     *         the JSON stream
+     * @param clazz
+     *         the generic class type of the collection
+     * @param <C>
+     *         the type of objects to be read by the stream (stored in the
+     *         collection)
+     * @param destiny
+     *         the collection to store the read objects
+     * @throws IOException
+     *         if an error occurs while reading the collection from the stream
+     */
+    <C> void readCollection(final JsonReader reader, final Class<C> clazz,
+                            final Collection<C> destiny)
+            throws IOException {
+        reader.beginArray();
+        while (reader.hasNext()) {
+            destiny.add(gson.getAdapter(clazz).read(reader));
+        }
+        reader.endArray();
+    }
 }

@@ -10,14 +10,14 @@ import java.io.IOException;
 import java.time.ZoneOffset;
 
 /**
- * TODO: change me
+ * Deserialization entity for {@link TvShowSummary} objects.
  *
  * @author David Silva
  */
-public class TvShowSummaryTypeAdapter extends TvShowTypeAdapter {
+final class TvShowSummaryTypeAdapter extends TvShowTypeAdapter {
 
 	/**
-	 * Default constructor for the type dater
+	 * Default constructor for the type adapter
 	 *
 	 * @param gson
 	 * 		the GSON object

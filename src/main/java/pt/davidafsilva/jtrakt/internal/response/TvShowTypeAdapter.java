@@ -12,56 +12,16 @@ import java.io.IOException;
 import java.time.ZoneOffset;
 
 /**
- * The {@link pt.davidafsilva.jtrakt.model.TvShow} type adapter for
- * serialization and deserialization purposes.
- *
- * <p>
- * An example of a correct JSON serialized {@link pt.davidafsilva.jtrakt.model.TvShow}
- * would be:
- * <pre>
- * {
- *  "title": "Silicon Valley",
- *  "year": 2014,
- *  "url": "http://trakt.tv/show/silicon-valley",
- *  "first_aired": 1396767600,
- *  "country": "United States",
- *  "overview": "In the high-tech gold rush of modern Silicon Valley, the people most qualified to succeed are the
- *              least capable of handling success. \n\nA comedy partially inspired by Mike Judge's own experiences
- *              as a Silicon Valley engineer in the late 1980s.",
- *  "runtime": 30,
- *  "network": "HBO",
- *  "air_day": "Sunday",
- *  "air_time": "10:00pm",
- *  "certification": "TV-14",
- *  "imdb_id": "tt2575988",
- *  "tvdb_id": 277165,
- *  "tvrage_id": 33759,
- *  "ended": false,
- *  "images": {
- *      "poster": "http://slurm.trakt.us/images/posters/23332.10.jpg",
- *      "fanart": "http://slurm.trakt.us/images/fanart/23332.10.jpg",
- *      "banner": "http://slurm.trakt.us/images/banners/23332.10.jpg"
- *  },
- *  "ratings": {
- *      "percentage": 82,
- *      "votes": 258,
- *      "loved": 241,
- *      "hated": 17
- *  },
- *  "genres": [
- *      "Comedy"
- *  ]
- * }
- * </pre>
+ * Deserialization entity for {@link TvShow} objects.
  *
  * @author David Silva
  */
-public class TvShowTypeAdapter extends ObjectTypeAdapter<TvShow> {
+class TvShowTypeAdapter extends ObjectTypeAdapter<TvShow> {
 
 	static final ZoneOffset PDT_OFFSET = ZoneOffset.ofHours(-7);
 
 	/**
-	 * Default constructor for the type dater
+	 * Default constructor for the type adapter
 	 *
 	 * @param gson
 	 * 		the GSON object

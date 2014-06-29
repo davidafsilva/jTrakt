@@ -7,14 +7,14 @@ import pt.davidafsilva.jtrakt.model.Rating;
 import java.io.IOException;
 
 /**
- * TODO: change me
+ * Deserialization entity for {@link Rating} objects.
  *
  * @author David Silva
  */
-public class RatingTypeAdapter extends ObjectTypeAdapter<Rating> {
+final class RatingTypeAdapter extends ObjectTypeAdapter<Rating> {
 
 	/**
-	 * Default constructor for the type dater
+	 * Default constructor for the type adapter
 	 *
 	 * @param gson
 	 * 		the GSON object

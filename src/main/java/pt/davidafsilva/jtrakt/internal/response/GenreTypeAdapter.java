@@ -8,14 +8,14 @@ import pt.davidafsilva.jtrakt.model.Genre;
 import java.io.IOException;
 
 /**
- * TODO: change me
+ * Deserialization entity for {@link Genre} objects.
  *
  * @author David Silva
  */
-public class GenreTypeAdapter extends ObjectTypeAdapter<Genre> {
+final class GenreTypeAdapter extends ObjectTypeAdapter<Genre> {
 
 	/**
-	 * Default constructor for the type dater
+	 * Default constructor for the type adapter
 	 *
 	 * @param gson
 	 * 		the GSON object

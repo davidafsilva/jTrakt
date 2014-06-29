@@ -5,17 +5,30 @@ import pt.davidafsilva.jtrakt.model.TvShowSeason;
 import java.util.Objects;
 
 /**
- * TODO: change me
+ * This is a simple
  *
  * @author David Silva
  */
 public enum DeserializationCache {
-    INSTANCE;
+    INSTANCE; // singleton
 
+    /**
+     * Cleans up the cache currently associated with the thread being executed.
+     */
     public void clean() {
         LocalCache.INSTANCE.clean();
     }
 
+    /**
+     * Caches the given object at the thread currently being executed.
+     *
+     * @param object
+     *         the object to cache
+     * @param <T>
+     *         the type of the object
+     * @throws java.lang.NullPointerException
+     *         if {@code object} is {@code null}
+     */
     @SuppressWarnings("unchecked")
     public <T> void put(T object) {
         Objects.requireNonNull(object);
@@ -35,9 +48,11 @@ public enum DeserializationCache {
      *
      * @param seasonNumber
      *         the season number
-     * @return a cached season, {@code null} if no season with the given number is found.
+     * @return a cached season, {@code null} if no season with the given number
+     * is found.
      */
     public TvShowSeason getTvShowSeason(final int seasonNumber) {
-        return LocalCache.INSTANCE.getCachedObject(TvShowSeason.class, season -> season.getNumber() == seasonNumber);
+        return LocalCache.INSTANCE.getCachedObject(TvShowSeason.class,
+               season -> season.getNumber() == seasonNumber);
     }
 }

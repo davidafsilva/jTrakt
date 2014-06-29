@@ -10,14 +10,14 @@ import pt.davidafsilva.jtrakt.model.TvShowSeason;
 import java.io.IOException;
 
 /**
- * TODO: change me
+ * Deserialization entity for {@link TvShowSeason} objects.
  *
  * @author David Silva
  */
-public class TvShowSeasonTypeAdapter extends ObjectTypeAdapter<TvShowSeason> {
+final class TvShowSeasonTypeAdapter extends ObjectTypeAdapter<TvShowSeason> {
 
 	/**
-	 * Default constructor for the type dater
+	 * Default constructor for the type adapter
 	 *
 	 * @param gson
 	 * 		the GSON object

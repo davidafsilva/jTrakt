@@ -12,46 +12,69 @@ import pt.davidafsilva.jtrakt.model.TvShow;
 import pt.davidafsilva.jtrakt.model.TvShowArt;
 import pt.davidafsilva.jtrakt.model.TvShowEpisode;
 import pt.davidafsilva.jtrakt.model.TvShowEpisodeSummary;
-import pt.davidafsilva.jtrakt.model.TvShowSeasonEpisode;
 import pt.davidafsilva.jtrakt.model.TvShowSeason;
+import pt.davidafsilva.jtrakt.model.TvShowSeasonEpisode;
 import pt.davidafsilva.jtrakt.model.TvShowSummary;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * TODO: change me
+ * This class defines the creator of the object deserialization entities.
  *
  * @author David Silva
  */
 public enum ObjectTypeAdapterFactory implements TypeAdapterFactory {
-	INSTANCE;
+    INSTANCE; // singleton
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
-		TypeAdapter<T> adapter = null;
-		if (type.getRawType() == TvShow.class) {
-			adapter = (TypeAdapter<T>) new TvShowTypeAdapter(gson);
-		} else if (type.getRawType() == TvShowSummary.class) {
-			adapter = (TypeAdapter<T>) new TvShowSummaryTypeAdapter(gson);
-		} else if (type.getRawType() == Genre.class) {
-			adapter = (TypeAdapter<T>) new GenreTypeAdapter(gson);
-		} else if (type.getRawType() == Rating.class) {
-			adapter = (TypeAdapter<T>) new RatingTypeAdapter(gson);
-		} else if (type.getRawType() == TvShowArt.class) {
-			adapter = (TypeAdapter<T>) new TvShowArtTypeAdapter(gson);
-		} else if (type.getRawType() == People.class) {
-			adapter = (TypeAdapter<T>) new PeopleTypeAdapter(gson);
-		} else if (type.getRawType() == Actor.class) {
-			adapter = (TypeAdapter<T>) new ActorTypeAdapter(gson);
-		} else if (type.getRawType() == TvShowSeason.class) {
-			adapter = (TypeAdapter<T>) new TvShowSeasonTypeAdapter(gson);
-		} else if (type.getRawType() == TvShowEpisode.class) {
-			adapter = (TypeAdapter<T>) new TvShowEpisodeTypeAdapter(gson);
-		} else if (type.getRawType() == TvShowSeasonEpisode.class) {
-			adapter = (TypeAdapter<T>) new TvShowSeasonEpisodeTypeAdapter(gson);
-		} else if (type.getRawType() == TvShowEpisodeSummary.class) {
-            adapter = (TypeAdapter<T>) new TvShowEpisodeSummaryTypeAdapter(gson);
+    // constructors map
+    private final Map<Class<?>, AdapterConstructor> constructors =
+            new HashMap<>();
+
+    /**
+     * Default constructor
+     */
+    private ObjectTypeAdapterFactory() {
+        // build the constructors map
+        constructors.put(TvShow.class, TvShowTypeAdapter::new);
+        constructors.put(TvShowSummary.class, TvShowSummaryTypeAdapter::new);
+        constructors.put(Genre.class, GenreTypeAdapter::new);
+        constructors.put(Rating.class, RatingTypeAdapter::new);
+        constructors.put(TvShowArt.class, TvShowArtTypeAdapter::new);
+        constructors.put(People.class, PeopleTypeAdapter::new);
+        constructors.put(Actor.class, ActorTypeAdapter::new);
+        constructors.put(TvShowSeason.class, TvShowSeasonTypeAdapter::new);
+        constructors.put(TvShowEpisode.class, TvShowEpisodeTypeAdapter::new);
+        constructors.put(TvShowSeasonEpisode.class,
+                         TvShowSeasonEpisodeTypeAdapter::new);
+        constructors.put(TvShowEpisodeSummary.class,
+                         TvShowEpisodeSummaryTypeAdapter::new);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> TypeAdapter<T> create(final Gson gson, final TypeToken<T> type) {
+        final TypeAdapter<T> adapter;
+
+        // search for the constructor
+        final AdapterConstructor constructor =
+                constructors.get(type.getRawType());
+        if (constructor != null) {
+            adapter = (TypeAdapter<T>) constructor.create(gson);
+        } else {
+            // we don't support its
+            adapter = null;
         }
 
-		return adapter;
-	}
+        return adapter;
+    }
+
+    /**
+     * Defines the contract of each adapter constructor jn order
+     * to abstract the instantiation of a type adapter.
+     */
+    @FunctionalInterface
+    private interface AdapterConstructor {
+        TypeAdapter<?> create(final Gson gson);
+    }
 }

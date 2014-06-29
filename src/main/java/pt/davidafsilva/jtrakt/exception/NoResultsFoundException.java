@@ -3,7 +3,12 @@ package pt.davidafsilva.jtrakt.exception;
 import retrofit.RetrofitError;
 
 /**
- * TODO: change me
+ * This exception represents a service query that returned
+ * an error with no results.
+ * <br/>
+ * Trakt API uses HTTP status codes to represent errors in some of their
+ * responses, typically they'll send HTTP 400 (bad request) or HTTP 404
+ * (not found) where queried with wrong or not found information.
  *
  * @author David Silva
  */
