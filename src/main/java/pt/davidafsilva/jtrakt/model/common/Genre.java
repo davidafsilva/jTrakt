@@ -1,56 +1,95 @@
 package pt.davidafsilva.jtrakt.model.common;
 
 /**
- * TODO: change me
+ * This class represents an TV show/movie genre.
+ * <br/>
+ * It's the result of deserializing:
+ * <pre>
+ * {
+ *   ...
+ *   "genre": "Action",
+ *   ...
+ * }
+ * </pre>
+ * or
+ * <pre>
+ * {
+ *   "name": "Action",
+ *   "slug": "action"
+ * }
+ * </pre>
  *
  * @author David Silva
  */
-public class Genre extends BaseModel {
+public final class Genre extends BaseModel {
 
-	private String name;
-	private String slung;
+    // properties
+    private String name;
+    private String slung;
 
-	public String getName() {
-		return name;
-	}
+    /**
+     * Returns the genre name
+     *
+     * @return the genre name
+     */
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    /**
+     * Sets the genre name
+     *
+     * @param name
+     *         the genre name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getSlung() {
-		return slung;
-	}
+    /**
+     * Returns the genre slung
+     *
+     * @return the genre slung
+     */
+    public String getSlung() {
+        return slung;
+    }
 
-	public void setSlung(String slung) {
-		this.slung = slung;
-	}
+    /**
+     * Sets the genre slung
+     *
+     * @param slung
+     *         the genre slung
+     */
+    public void setSlung(String slung) {
+        this.slung = slung;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-		Genre genre = (Genre) o;
+        Genre genre = (Genre) o;
 
-		if (!name.equals(genre.name)) {
-			return false;
-		}
-		if (!slung.equals(genre.slung)) {
-			return false;
-		}
+        if (!name.equals(genre.name)) {
+            return false;
+        }
+        if (!slung.equals(genre.slung)) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public int hashCode() {
-		int result = name.hashCode();
-		result = 31 * result + slung.hashCode();
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + slung.hashCode();
+        return result;
+    }
 }

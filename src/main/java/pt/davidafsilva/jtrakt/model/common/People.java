@@ -4,19 +4,50 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * TODO: change me
+ * This class represents a People container.
+ * <br/>
+ * It's the result of deserializing:
+ * <pre>
+ * {
+ *   ...
+ *   "people": {
+ *     "actors": [
+ *       "name": "Thomas Middleditch",
+ *       "character": "Richard",
+ *       "images": {
+ *         "headshot": "http://slurm.trakt.us/images/avatar-large.jpg"
+ *       },
+ *       ..
+ *     ]
+ *   }
+ *   ...
+ * }
+ * </pre>
+ * Currently this container only contains Actors.
  *
  * @author David Silva
  */
-public class People extends BaseModel {
+public final class People extends BaseModel {
 
-	private Set<Actor> actors = new HashSet<>();
+    // properties
+    private Set<Actor> actors = new HashSet<>();
 
-	public Set<Actor> getActors() {
-		return actors;
-	}
+    /**
+     * Returns the set of actors
+     *
+     * @return the set of actors
+     */
+    public Set<Actor> getActors() {
+        return actors;
+    }
 
-	public void setActors(final Set<Actor> actors) {
-		this.actors = actors;
-	}
+    /**
+     * Sets the actors of this container
+     *
+     * @param actors
+     *         the actors
+     */
+    public void setActors(final Set<Actor> actors) {
+        this.actors = actors;
+    }
 }

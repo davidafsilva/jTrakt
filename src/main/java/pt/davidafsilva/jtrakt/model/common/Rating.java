@@ -1,49 +1,106 @@
 package pt.davidafsilva.jtrakt.model.common;
 
-import pt.davidafsilva.jtrakt.model.common.BaseModel;
-
 /**
- * TODO: change me
+ * This class represents a Rating.
+ * <br/>
+ * It's the result of deserializing:
+ * <pre>
+ * {
+ *   ...
+ *   "ratings": {
+ *     "percentage": 82,
+ *     "votes": 919,
+ *     "loved": 877,
+ *     "hated": 42
+ *   },
+ *   ...
+ * }
+ * </pre>
  *
  * @author David Silva
  */
-public class Rating extends BaseModel {
+public final class Rating extends BaseModel {
 
-	private double percentage;
-	private int votes;
-	private int loved;
-	private int hated;
+    // properties
+    private double percentage;
+    private int votes;
+    private int loved;
+    private int hated;
 
-	public double getPercentage() {
-		return percentage;
-	}
+    /**
+     * Returns the rating percentage
+     *
+     * @return the rating percentage
+     */
+    public double getPercentage() {
+        return percentage;
+    }
 
-	public void setPercentage(double percentage) {
-		this.percentage = percentage;
-	}
+    /**
+     * Sets the rating percentage
+     *
+     * @param percentage
+     *         the rating percentage
+     */
+    public void setPercentage(double percentage) {
+        this.percentage = percentage;
+    }
 
-	public int getVotes() {
-		return votes;
-	}
+    /**
+     * Returns the total amount of votes
+     *
+     * @return the total amount of votes
+     */
+    public int getVotes() {
+        return votes;
+    }
 
-	public void setVotes(int votes) {
-		this.votes = votes;
-	}
+    /**
+     * Sets the total amount of votes
+     *
+     * @param votes
+     *         the total votes
+     */
+    public void setVotes(int votes) {
+        this.votes = votes;
+    }
 
-	public int getLoved() {
-		return loved;
-	}
+    /**
+     * Returns the number of positive votes
+     *
+     * @return the number of positive votes
+     */
+    public int getLoved() {
+        return loved;
+    }
 
-	public void setLoved(int loved) {
-		this.loved = loved;
-	}
+    /**
+     * Sets the number of positive votes
+     *
+     * @param loved
+     *         the positive votes count
+     */
+    public void setLoved(int loved) {
+        this.loved = loved;
+    }
 
-	public int getHated() {
-		return hated;
-	}
+    /**
+     * Returns the number of negative votes
+     *
+     * @return the number of negative votes
+     */
+    public int getHated() {
+        return hated;
+    }
 
-	public void setHated(int hated) {
-		this.hated = hated;
-	}
+    /**
+     * Sets the number of negative votes
+     *
+     * @param hated
+     *         the negative votes count
+     */
+    public void setHated(int hated) {
+        this.hated = hated;
+    }
 }
 
