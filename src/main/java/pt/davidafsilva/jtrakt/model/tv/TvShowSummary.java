@@ -1,4 +1,6 @@
-package pt.davidafsilva.jtrakt.model;
+package pt.davidafsilva.jtrakt.model.tv;
+
+import pt.davidafsilva.jtrakt.model.common.People;
 
 /**
  * TODO: change me

@@ -3,7 +3,7 @@ package pt.davidafsilva.jtrakt.internal.response;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
-import pt.davidafsilva.jtrakt.model.Genre;
+import pt.davidafsilva.jtrakt.model.common.Genre;
 
 import java.io.IOException;
 

@@ -1,4 +1,8 @@
-package pt.davidafsilva.jtrakt.model;
+package pt.davidafsilva.jtrakt.model.tv;
+
+import pt.davidafsilva.jtrakt.model.common.BaseModel;
+import pt.davidafsilva.jtrakt.model.common.Genre;
+import pt.davidafsilva.jtrakt.model.common.Rating;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

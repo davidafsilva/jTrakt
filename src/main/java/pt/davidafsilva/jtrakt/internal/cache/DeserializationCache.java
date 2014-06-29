@@ -1,6 +1,6 @@
 package pt.davidafsilva.jtrakt.internal.cache;
 
-import pt.davidafsilva.jtrakt.model.TvShowSeason;
+import pt.davidafsilva.jtrakt.model.tv.TvShowSeason;
 
 import java.util.Objects;
 

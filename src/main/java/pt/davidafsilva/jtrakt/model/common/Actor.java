@@ -1,4 +1,4 @@
-package pt.davidafsilva.jtrakt.model;
+package pt.davidafsilva.jtrakt.model.common;
 
 /**
  * TODO: change me
@@ -8,7 +8,7 @@ package pt.davidafsilva.jtrakt.model;
 public class Actor extends BaseModel {
 
 	private String name;
-	private String caracter;
+	private String character;
 	private String pictureUrl;
 
 	public String getName() {
@@ -19,12 +19,12 @@ public class Actor extends BaseModel {
 		this.name = name;
 	}
 
-	public String getCaracter() {
-		return caracter;
+	public String getCharacter() {
+		return character;
 	}
 
-	public void setCaracter(final String caracter) {
-		this.caracter = caracter;
+	public void setCharacter(final String character) {
+		this.character = character;
 	}
 
 	public String getPictureUrl() {
@@ -46,7 +46,7 @@ public class Actor extends BaseModel {
 
 		final Actor actor = (Actor) o;
 
-		if (!caracter.equals(actor.caracter)) {
+		if (!character.equals(actor.character)) {
 			return false;
 		}
 		if (!name.equals(actor.name)) {
@@ -59,7 +59,7 @@ public class Actor extends BaseModel {
 	@Override
 	public int hashCode() {
 		int result = name.hashCode();
-		result = 31 * result + caracter.hashCode();
+		result = 31 * result + character.hashCode();
 		return result;
 	}
 }

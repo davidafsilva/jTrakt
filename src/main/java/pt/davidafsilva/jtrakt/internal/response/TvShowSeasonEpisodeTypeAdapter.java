@@ -3,10 +3,10 @@ package pt.davidafsilva.jtrakt.internal.response;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import pt.davidafsilva.jtrakt.internal.cache.DeserializationCache;
-import pt.davidafsilva.jtrakt.model.Rating;
-import pt.davidafsilva.jtrakt.model.TvShowEpisode;
-import pt.davidafsilva.jtrakt.model.TvShowSeasonEpisode;
-import pt.davidafsilva.jtrakt.model.TvShowSeason;
+import pt.davidafsilva.jtrakt.model.common.Rating;
+import pt.davidafsilva.jtrakt.model.tv.TvShowEpisode;
+import pt.davidafsilva.jtrakt.model.tv.TvShowSeasonEpisode;
+import pt.davidafsilva.jtrakt.model.tv.TvShowSeason;
 
 import java.io.IOException;
 import java.time.ZoneOffset;

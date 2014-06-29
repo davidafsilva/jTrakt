@@ -1,4 +1,4 @@
-package pt.davidafsilva.jtrakt.model;
+package pt.davidafsilva.jtrakt.model.common;
 
 /**
  * TODO: change me

@@ -1,12 +1,12 @@
 package pt.davidafsilva.jtrakt;
 
 import pt.davidafsilva.jtrakt.exception.NoResultsFoundException;
-import pt.davidafsilva.jtrakt.model.Genre;
-import pt.davidafsilva.jtrakt.model.TvShow;
-import pt.davidafsilva.jtrakt.model.TvShowEpisodeSummary;
-import pt.davidafsilva.jtrakt.model.TvShowSeason;
-import pt.davidafsilva.jtrakt.model.TvShowSeasonEpisode;
-import pt.davidafsilva.jtrakt.model.TvShowSummary;
+import pt.davidafsilva.jtrakt.model.common.Genre;
+import pt.davidafsilva.jtrakt.model.tv.TvShow;
+import pt.davidafsilva.jtrakt.model.tv.TvShowEpisodeSummary;
+import pt.davidafsilva.jtrakt.model.tv.TvShowSeason;
+import pt.davidafsilva.jtrakt.model.tv.TvShowSeasonEpisode;
+import pt.davidafsilva.jtrakt.model.tv.TvShowSummary;
 import retrofit.http.GET;
 import retrofit.http.Path;
 import retrofit.http.Query;

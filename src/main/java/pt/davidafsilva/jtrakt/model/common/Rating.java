@@ -1,4 +1,6 @@
-package pt.davidafsilva.jtrakt.model;
+package pt.davidafsilva.jtrakt.model.common;
+
+import pt.davidafsilva.jtrakt.model.common.BaseModel;
 
 /**
  * TODO: change me

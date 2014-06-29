@@ -2,7 +2,7 @@ package pt.davidafsilva.jtrakt.internal.response;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import pt.davidafsilva.jtrakt.model.Rating;
+import pt.davidafsilva.jtrakt.model.common.Rating;
 
 import java.io.IOException;
 

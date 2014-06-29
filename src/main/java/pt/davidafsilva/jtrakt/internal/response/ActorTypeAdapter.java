@@ -3,7 +3,7 @@ package pt.davidafsilva.jtrakt.internal.response;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
-import pt.davidafsilva.jtrakt.model.Actor;
+import pt.davidafsilva.jtrakt.model.common.Actor;
 
 import java.io.IOException;
 
@@ -52,7 +52,7 @@ final class ActorTypeAdapter extends ObjectTypeAdapter<Actor> {
                     object.setName(readString(in));
                     break;
                 case CHARACTER:
-                    object.setCaracter(readString(in));
+                    object.setCharacter(readString(in));
                     break;
                 case IMAGES:
                     //TODO: might change this if more image types are

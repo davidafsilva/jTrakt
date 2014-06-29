@@ -2,9 +2,9 @@ package pt.davidafsilva.jtrakt.internal.response;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import pt.davidafsilva.jtrakt.model.TvShowEpisodeSummary;
-import pt.davidafsilva.jtrakt.model.TvShowSeasonEpisode;
-import pt.davidafsilva.jtrakt.model.TvShowSummary;
+import pt.davidafsilva.jtrakt.model.tv.TvShowEpisodeSummary;
+import pt.davidafsilva.jtrakt.model.tv.TvShowSeasonEpisode;
+import pt.davidafsilva.jtrakt.model.tv.TvShowSummary;
 
 import java.io.IOException;
 

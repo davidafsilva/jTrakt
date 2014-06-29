@@ -1,4 +1,4 @@
-package pt.davidafsilva.jtrakt.model;
+package pt.davidafsilva.jtrakt.model.common;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
