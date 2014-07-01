@@ -42,7 +42,7 @@ public final class Rating extends BaseModel {
      * @param percentage
      *         the rating percentage
      */
-    public void setPercentage(double percentage) {
+    public void setPercentage(final double percentage) {
         this.percentage = percentage;
     }
 
@@ -61,7 +61,7 @@ public final class Rating extends BaseModel {
      * @param votes
      *         the total votes
      */
-    public void setVotes(int votes) {
+    public void setVotes(final int votes) {
         this.votes = votes;
     }
 
@@ -80,7 +80,7 @@ public final class Rating extends BaseModel {
      * @param loved
      *         the positive votes count
      */
-    public void setLoved(int loved) {
+    public void setLoved(final int loved) {
         this.loved = loved;
     }
 
@@ -99,7 +99,7 @@ public final class Rating extends BaseModel {
      * @param hated
      *         the negative votes count
      */
-    public void setHated(int hated) {
+    public void setHated(final int hated) {
         this.hated = hated;
     }
 }

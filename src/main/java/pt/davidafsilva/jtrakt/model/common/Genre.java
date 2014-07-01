@@ -42,7 +42,7 @@ public final class Genre extends BaseModel {
      * @param name
      *         the genre name
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -61,7 +61,7 @@ public final class Genre extends BaseModel {
      * @param slung
      *         the genre slung
      */
-    public void setSlung(String slung) {
+    public void setSlung(final String slung) {
         this.slung = slung;
     }
 

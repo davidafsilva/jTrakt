@@ -3,37 +3,84 @@ package pt.davidafsilva.jtrakt.model.tv;
 import pt.davidafsilva.jtrakt.model.common.BaseModel;
 
 /**
- * TODO: change me
+ * This class represents a TV show artwork.
+ * <br/>
+ * It's the result of deserializing:
+ * <pre>
+ * {
+ *   ...
+ *   "images": {
+ *     "poster": "http://slurm.trakt.us/images/posters/23332.16.jpg",
+ *     "fanart": "http://slurm.trakt.us/images/fanart/23332.16.jpg",
+ *     "banner": "http://slurm.trakt.us/images/banners/23332.16.jpg"
+ *   },
+ *   ...
+ * }
+ * </pre>
  *
  * @author David Silva
  */
-public class TvShowArt extends BaseModel {
+public final class TvShowArt extends BaseModel {
 
-	private String banner;
-	private String fanArt;
-	private String poster;
+    // properties
+    private String banner;
+    private String fanArt;
+    private String poster;
 
-	public String getBanner() {
-		return banner;
-	}
+    /**
+     * Returns the TV show banner URL
+     *
+     * @return the banner URL
+     */
+    public String getBanner() {
+        return banner;
+    }
 
-	public void setBanner(String banner) {
-		this.banner = banner;
-	}
+    /**
+     * Sets the TV show banner URL
+     *
+     * @param banner
+     *         the banner URL
+     */
+    public void setBanner(final String banner) {
+        this.banner = banner;
+    }
 
-	public String getFanArt() {
-		return fanArt;
-	}
+    /**
+     * Returns the TV show fan-artwork URL
+     *
+     * @return the fan-artwork URL
+     */
+    public String getFanArt() {
+        return fanArt;
+    }
 
-	public void setFanArt(String fanArt) {
-		this.fanArt = fanArt;
-	}
+    /**
+     * Sets the TV show fan-artwork URL
+     *
+     * @param fanArt
+     *         the fan-artwork URL
+     */
+    public void setFanArt(final String fanArt) {
+        this.fanArt = fanArt;
+    }
 
-	public String getPoster() {
-		return poster;
-	}
+    /**
+     * Returns the TV show poster URL
+     *
+     * @return the poster URL
+     */
+    public String getPoster() {
+        return poster;
+    }
 
-	public void setPoster(String poster) {
-		this.poster = poster;
-	}
+    /**
+     * Sets the TV show poster URL
+     *
+     * @param poster
+     *         the poster URL
+     */
+    public void setPoster(final String poster) {
+        this.poster = poster;
+    }
 }

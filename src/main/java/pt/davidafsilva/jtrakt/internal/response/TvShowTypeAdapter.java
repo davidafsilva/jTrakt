@@ -109,7 +109,7 @@ class TvShowTypeAdapter extends ObjectTypeAdapter<TvShow> {
 					object.setImages(readObject(in, TvShowArt.class));
 					break;
 				case RATINGS:
-					object.setRatings(readObject(in, Rating.class));
+					object.setRating(readObject(in, Rating.class));
 					break;
 				case GENRES:
 					object.setGenres(readSet(in, Genre.class));
