@@ -10,12 +10,8 @@
 <li>TBD</li>
 </ol>
 
-<b>JavaDoc:</b>
-<ol>
-<li>Pretty much all of it!</li>
-</ol>
-
-<b>Improves:</b>
+<h3>Improves:</h3>
 <ol>
 <li>Refactor field deserialization per object</li>
+<li>README.md :p</li>
 </ol>
