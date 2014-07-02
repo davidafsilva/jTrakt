@@ -23,21 +23,34 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package pt.davidafsilva.jtrakt.internal.response;
+package pt.davidafsilva.jtrakt.client;
+
+import retrofit.client.Request;
+import retrofit.client.Response;
+import retrofit.mime.TypedByteArray;
+
+import java.util.Collections;
 
 /**
- * This exception shall be thrown whenever an error object is detected while
- * deserializing an arbitrary object, which most likely points to a query
- * that returned an error result.
+ * The server response object
  *
  * @author David Silva
  */
-class NoResultError extends Error {
+public final class ServerResponse implements MockResponse {
 
-    /**
-     * Default constructor
-     */
-    public NoResultError() {
-        super();
+    private final String jsonResponse;
+    private final int httpCode;
+
+    public ServerResponse(final int httpCode, final String response) {
+        this.jsonResponse = response;
+        this.httpCode = httpCode;
+    }
+
+    @Override
+    public Response response(Request request) {
+        final TypedByteArray body =
+                new TypedByteArray("application/json", jsonResponse.getBytes());
+        return new Response(request.getUrl(), httpCode, "TEST",
+                            Collections.emptyList(), body);
     }
 }
