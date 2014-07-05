@@ -6,12 +6,17 @@
  *          * Redistributions of source code must retain the above copyright
  *              notice, this list of conditions and the following disclaimer.
  *          * Redistributions in binary form must reproduce the above copyright
- *              notice, this list of conditions and the following disclaimer in the
- *              documentation and/or other materials provided with the distribution.
+ *              notice, this list of conditions and the following disclaimer
+ *              in the
+ *              documentation and/or other materials provided with the
+ *              distribution.
  *          * Neither the name of the <organization> nor the
- *              names of its contributors may be used to endorse or promote products
- *              derived from this software without specific prior written permission.
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ *              names of its contributors may be used to endorse or promote
+ *              products
+ *              derived from this software without specific prior written
+ *              permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
@@ -28,8 +33,7 @@ package pt.davidafsilva.jtrakt.model.tv;
 import pt.davidafsilva.jtrakt.model.common.People;
 
 /**
- * This class represents a TV show summary.
- * <br/>
+ * <p>This class represents a TV show summary.</p>
  * It's the result of deserializing:
  * <pre>
  * {
@@ -40,7 +44,8 @@ import pt.davidafsilva.jtrakt.model.common.People;
  *   "first_aired_iso": "2014-04-06T22:00:00-04:00",
  *   "first_aired_utc": 1396836000,
  *   "country": "United States",
- *   "overview": "In the high-tech gold rush of modern Silicon Valley, the people
+ *   "overview": "In the high-tech gold rush of modern Silicon Valley, the
+ * people
  *                most qualified to succeed are the least capable of handling
  *                success. \n\nA comedy partially inspired by Mike Judge's own
  *                experiences as a Silicon Valley engineer in the late 1980s.",

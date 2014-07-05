@@ -6,12 +6,17 @@
  *          * Redistributions of source code must retain the above copyright
  *              notice, this list of conditions and the following disclaimer.
  *          * Redistributions in binary form must reproduce the above copyright
- *              notice, this list of conditions and the following disclaimer in the
- *              documentation and/or other materials provided with the distribution.
+ *              notice, this list of conditions and the following disclaimer
+ *              in the
+ *              documentation and/or other materials provided with the
+ *              distribution.
  *          * Neither the name of the <organization> nor the
- *              names of its contributors may be used to endorse or promote products
- *              derived from this software without specific prior written permission.
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ *              names of its contributors may be used to endorse or promote
+ *              products
+ *              derived from this software without specific prior written
+ *              permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
@@ -33,13 +38,10 @@ import java.util.WeakHashMap;
 import java.util.function.Predicate;
 
 /**
- * This class defines a local cache mechanism which is associated with a given
- * thread.
- * <br/>
+ * <p>This class defines a local cache mechanism which is associated with a
+ * given thread.</p>
  * The purpose of this class is to define a small set of cache functionality
- * for
- * the
- * deserialization process, which is tied to a particular thread.
+ * for the deserialization process, which is tied to a particular thread.
  *
  * @author David Silva
  * @see java.lang.ThreadLocal
@@ -85,7 +87,7 @@ enum LocalCache {
      * @param <T>
      *         the type of the object
      * @return the first object that meets the restriction criteria, {@code
-     *         null} if none is found.
+     * null} if none is found.
      * @throws java.lang.NullPointerException
      *         if one of {@code clazz} or {@code restrictionPredicate} is
      *         {@code

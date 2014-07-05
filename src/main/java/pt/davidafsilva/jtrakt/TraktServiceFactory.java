@@ -6,12 +6,17 @@
  *          * Redistributions of source code must retain the above copyright
  *              notice, this list of conditions and the following disclaimer.
  *          * Redistributions in binary form must reproduce the above copyright
- *              notice, this list of conditions and the following disclaimer in the
- *              documentation and/or other materials provided with the distribution.
+ *              notice, this list of conditions and the following disclaimer
+ *              in the
+ *              documentation and/or other materials provided with the
+ *              distribution.
  *          * Neither the name of the <organization> nor the
- *              names of its contributors may be used to endorse or promote products
- *              derived from this software without specific prior written permission.
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ *              names of its contributors may be used to endorse or promote
+ *              products
+ *              derived from this software without specific prior written
+ *              permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
@@ -42,7 +47,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * The factory for the available Trakt services.<br/>
+ * <p>The factory for the available Trakt services.</p>
  * All services are created upon request, as such please consider caching
  * the instance of a given service if you intend to use it as a singleton.
  *
@@ -91,7 +96,7 @@ public class TraktServiceFactory {
      * requests to the remote Trakt server host.
      * </p>
      * <p>
-     * The service requires an API key to be used. <br/>
+     * The service requires an API key to be used.
      * In order to acquire your API key please create an account at
      * <a href="http://trakt.tv">trakt.tv</a>.
      * </p>
@@ -168,9 +173,8 @@ public class TraktServiceFactory {
     }
 
     /**
-     * This method is called in order to configure additional parameters
-     * in the rest adapter.
-     * <br/>
+     * <p>This method is called in order to configure additional parameters
+     * in the rest adapter.</p>
      * This method is empty by default.
      *
      * @param builder

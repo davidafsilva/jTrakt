@@ -28,8 +28,7 @@ package pt.davidafsilva.jtrakt.model.tv;
 import pt.davidafsilva.jtrakt.model.common.BaseModel;
 
 /**
- * This class represents a TV show artwork.
- * <br/>
+ * <p>This class represents a TV show artwork.</p>
  * It's the result of deserializing:
  * <pre>
  * {

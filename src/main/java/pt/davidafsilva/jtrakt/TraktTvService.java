@@ -6,12 +6,17 @@
  *          * Redistributions of source code must retain the above copyright
  *              notice, this list of conditions and the following disclaimer.
  *          * Redistributions in binary form must reproduce the above copyright
- *              notice, this list of conditions and the following disclaimer in the
- *              documentation and/or other materials provided with the distribution.
+ *              notice, this list of conditions and the following disclaimer
+ *              in the
+ *              documentation and/or other materials provided with the
+ *              distribution.
  *          * Neither the name of the <organization> nor the
- *              names of its contributors may be used to endorse or promote products
- *              derived from this software without specific prior written permission.
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ *              names of its contributors may be used to endorse or promote
+ *              products
+ *              derived from this software without specific prior written
+ *              permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
@@ -47,7 +52,7 @@ import java.util.List;
 public interface TraktTvService {
 
     /**
-     * Searches for TV shows that matches a given search criteria.<br/>
+     * <p>Searches for TV shows that matches a given search criteria.</p>
      * Since no search limit is being applied, defaults to 30. Please
      * use {@link #searchShow(String, int)} in order to supply your own limit.
      *
@@ -106,7 +111,7 @@ public interface TraktTvService {
     List<Genre> getGenres();
 
     /**
-     * Returns detailed information about a specific TV show. <br/>
+     * <p>Returns detailed information about a specific TV show.</p>
      * The {@code showIdentifier} used in the query is either the slug (i.e.
      * the-walking-dead) or TVDB identifier.
      *
@@ -122,7 +127,7 @@ public interface TraktTvService {
             throws NoResultsFoundException;
 
     /**
-     * Returns detailed information about a specific TV show. <br/>
+     * <p>Returns detailed information about a specific TV show.</p>
      * The {@code showIdentifier} used in the query is either the slug (i.e.
      * the-walking-dead) or TVDB identifier.
      *
@@ -142,8 +147,8 @@ public interface TraktTvService {
             @Path("extended") boolean extended) throws NoResultsFoundException;
 
     /**
-     * Returns some basic information about the seasons for a specific TV show.
-     * <br/>
+     * <p>Returns some basic information about the seasons for a specific TV
+     * show.</p>
      * The {@code showIdentifier} used in the query is either the slug (i.e.
      * the-walking-dead) or TVDB identifier.
      *
@@ -158,8 +163,8 @@ public interface TraktTvService {
             throws NoResultsFoundException;
 
     /**
-     * Returns detailed episode information for a specific season of a TV show.
-     * <br/>
+     * <p>Returns detailed episode information for a specific season of a TV
+     * show.</p>
      * The {@code showIdentifier} used in the query is either the slug (i.e.
      * the-walking-dead) or TVDB identifier.
      *
@@ -178,9 +183,8 @@ public interface TraktTvService {
             @Path("season") int seasonNumber) throws NoResultsFoundException;
 
     /**
-     * Returns detailed information for a specific season-episode pair of a TV
-     * show.
-     * <br/>
+     * <p>Returns detailed information for a specific season-episode pair of
+     * a TV show.</p>
      * The {@code showIdentifier} used in the query is either the slug (i.e.
      * the-walking-dead) or TVDB identifier.
      *
