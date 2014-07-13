@@ -6,12 +6,17 @@
  *          * Redistributions of source code must retain the above copyright
  *              notice, this list of conditions and the following disclaimer.
  *          * Redistributions in binary form must reproduce the above copyright
- *              notice, this list of conditions and the following disclaimer in the
- *              documentation and/or other materials provided with the distribution.
+ *              notice, this list of conditions and the following disclaimer
+ *              in the
+ *              documentation and/or other materials provided with the
+ *              distribution.
  *          * Neither the name of the <organization> nor the
- *              names of its contributors may be used to endorse or promote products
- *              derived from this software without specific prior written permission.
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ *              names of its contributors may be used to endorse or promote
+ *              products
+ *              derived from this software without specific prior written
+ *              permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
@@ -32,6 +37,8 @@ import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
+import java.util.Objects;
+import java.util.function.Supplier;
 import java.util.logging.Logger;
 
 /**
@@ -48,14 +55,22 @@ abstract class BaseTypeAdapter<T> extends TypeAdapter<T> {
     // gson object
     protected final Gson gson;
 
+    // object type initializer
+    private final Supplier<T> objectConstructor;
+
     /**
      * Default constructor for the type adapter
      *
      * @param gson
      *         the GSON object
+     * @param objectConstructor
+     *         the object constructor
      */
-    BaseTypeAdapter(final Gson gson) {
+    BaseTypeAdapter(final Gson gson, final Supplier<T> objectConstructor) {
+        Objects.requireNonNull(gson);
+        Objects.requireNonNull(objectConstructor);
         this.gson = gson;
+        this.objectConstructor = objectConstructor;
     }
 
     /**
@@ -85,7 +100,7 @@ abstract class BaseTypeAdapter<T> extends TypeAdapter<T> {
                     in.nextNull();
                     break;
                 default:
-                    obj = createInstance();
+                    obj = objectConstructor.get();
                     handleToken(in, token, obj);
                     break;
             }
@@ -120,7 +135,7 @@ abstract class BaseTypeAdapter<T> extends TypeAdapter<T> {
      * @return the object to return when a result error is detected
      */
     T getObjectOnResultError() {
-        return null;
+        return objectConstructor.get();
     }
 
     // abstract methods
@@ -145,15 +160,6 @@ abstract class BaseTypeAdapter<T> extends TypeAdapter<T> {
     abstract void handleToken(final JsonReader in, final JsonToken token,
                               final T obj)
             throws IOException;
-
-    /**
-     * Creates and returns a specific instance of the object type
-     * being deserialized.
-     *
-     * @return the new object instance
-     */
-    abstract T createInstance();
-
 
     // auxiliary methods
 

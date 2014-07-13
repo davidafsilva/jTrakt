@@ -6,12 +6,17 @@
  *          * Redistributions of source code must retain the above copyright
  *              notice, this list of conditions and the following disclaimer.
  *          * Redistributions in binary form must reproduce the above copyright
- *              notice, this list of conditions and the following disclaimer in the
- *              documentation and/or other materials provided with the distribution.
+ *              notice, this list of conditions and the following disclaimer
+ *              in the
+ *              documentation and/or other materials provided with the
+ *              distribution.
  *          * Neither the name of the <organization> nor the
- *              names of its contributors may be used to endorse or promote products
- *              derived from this software without specific prior written permission.
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ *              names of its contributors may be used to endorse or promote
+ *              products
+ *              derived from this software without specific prior written
+ *              permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
@@ -43,6 +48,7 @@ import pt.davidafsilva.jtrakt.model.tv.TvShowSummary;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * This class defines the creator of the object deserialization entities.
@@ -53,39 +59,60 @@ public enum ObjectTypeAdapterFactory implements TypeAdapterFactory {
     INSTANCE; // singleton
 
     // constructors map
-    private final Map<Class<?>, AdapterConstructor> constructors =
-            new HashMap<>();
+    private final Map<Class<?>, Tuple> constructors = new HashMap<>();
 
     /**
      * Default constructor
      */
     private ObjectTypeAdapterFactory() {
         // build the constructors map
-        constructors.put(TvShow.class, TvShowTypeAdapter::new);
-        constructors.put(TvShowSummary.class, TvShowSummaryTypeAdapter::new);
-        constructors.put(Genre.class, GenreTypeAdapter::new);
-        constructors.put(Rating.class, RatingTypeAdapter::new);
-        constructors.put(TvShowArt.class, TvShowArtTypeAdapter::new);
-        constructors.put(People.class, PeopleTypeAdapter::new);
-        constructors.put(Actor.class, ActorTypeAdapter::new);
-        constructors.put(TvShowSeason.class, TvShowSeasonTypeAdapter::new);
-        constructors.put(TvShowEpisode.class, TvShowEpisodeTypeAdapter::new);
+        constructors.put(Actor.class, Tuple.<AdapterConstructor, Supplier>of(
+                ActorTypeAdapter::new, Actor::new));
+        constructors.put(TvShow.class, Tuple.<AdapterConstructor, Supplier>of(
+                TvShowTypeAdapter::new, TvShow::new));
+        constructors.put(TvShowSummary.class,
+                         Tuple.<AdapterConstructor, Supplier>of(
+                                 TvShowSummaryTypeAdapter::new,
+                                 TvShowSummary::new));
+        constructors.put(Genre.class, Tuple.<AdapterConstructor, Supplier>of(
+                GenreTypeAdapter::new, Genre::new));
+        constructors.put(Rating.class, Tuple.<AdapterConstructor, Supplier>of(
+                RatingTypeAdapter::new, Rating::new));
+        constructors.put(TvShowArt.class,
+                         Tuple.<AdapterConstructor, Supplier>of(
+                                 TvShowArtTypeAdapter::new, TvShowArt::new));
+        constructors.put(People.class, Tuple.<AdapterConstructor, Supplier>of(
+                PeopleTypeAdapter::new, People::new));
+        constructors.put(TvShowSeason.class,
+                         Tuple.<AdapterConstructor, Supplier>of(
+                                 TvShowSeasonTypeAdapter::new,
+                                 TvShowSeason::new));
+        constructors.put(TvShowEpisode.class,
+                         Tuple.<AdapterConstructor, Supplier>of(
+                                 TvShowEpisodeTypeAdapter::new,
+                                 TvShowEpisode::new));
         constructors.put(TvShowSeasonEpisode.class,
-                         TvShowSeasonEpisodeTypeAdapter::new);
+                         Tuple.<AdapterConstructor, Supplier>of(
+                                 TvShowSeasonEpisodeTypeAdapter::new,
+                                 TvShowSeasonEpisode::new));
         constructors.put(TvShowEpisodeSummary.class,
-                         TvShowEpisodeSummaryTypeAdapter::new);
+                         Tuple.<AdapterConstructor, Supplier>of(
+                                 TvShowEpisodeSummaryTypeAdapter::new,
+                                 TvShowEpisodeSummary::new));
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T> TypeAdapter<T> create(final Gson gson, final TypeToken<T> type) {
-        final TypeAdapter<T> adapter;
+        final ObjectTypeAdapter<T> adapter;
 
         // search for the constructor
-        final AdapterConstructor constructor =
+        final Tuple<AdapterConstructor, Supplier<?>> constructorTuple =
                 constructors.get(type.getRawType());
-        if (constructor != null) {
-            adapter = (TypeAdapter<T>) constructor.create(gson);
+        if (constructorTuple != null) {
+            adapter = (ObjectTypeAdapter<T>) constructorTuple.
+                    left.create(gson, constructorTuple.right);
+            adapter.initialize();
         } else {
             // we don't support its
             adapter = null;
@@ -99,7 +126,36 @@ public enum ObjectTypeAdapterFactory implements TypeAdapterFactory {
      * to abstract the instantiation of a type adapter.
      */
     @FunctionalInterface
-    private interface AdapterConstructor {
-        TypeAdapter<?> create(final Gson gson);
+    private interface AdapterConstructor<T> {
+        ObjectTypeAdapter<T> create(final Gson gson,
+                                    final Supplier<T> typeConstructor);
+    }
+
+    /**
+     * Auxiliary tuple container
+     */
+    private static final class Tuple<T1, T2> {
+
+        // properties
+        private final T1 left;
+        private final T2 right;
+
+        /**
+         * Default constructor
+         *
+         * @param left
+         *         the left object
+         * @param right
+         *         the right object
+         */
+        private Tuple(final T1 left, final T2 right) {
+            this.left = left;
+            this.right = right;
+        }
+
+        private static <T1, T2> Tuple<T1, T2> of(final T1 left,
+                                                 final T2 right) {
+            return new Tuple<>(left, right);
+        }
     }
 }

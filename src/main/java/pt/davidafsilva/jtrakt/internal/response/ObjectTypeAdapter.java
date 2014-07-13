@@ -2,19 +2,19 @@
  * Copyright (c) 2014, David Silva
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
- *          * Redistributions of source code must retain the above copyright
- *              notice, this list of conditions and the following disclaimer.
- *          * Redistributions in binary form must reproduce the above copyright
- *              notice, this list of conditions and the following disclaimer in the
- *              documentation and/or other materials provided with the distribution.
- *          * Neither the name of the <organization> nor the
- *              names of its contributors may be used to endorse or promote products
- *              derived from this software without specific prior written permission.
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+ * modification, are permitted provided that the following conditions are met:
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *   * Neither the name of the <organization> nor the
+ *     names of its contributors may be used to endorse or promote products
+ *     derived from this software without specific prior written permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
  * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
  * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
@@ -34,9 +34,13 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 /**
  * <p>
@@ -49,18 +53,36 @@ import java.util.Set;
  * concrete object type adapters, such as auxiliary reader methods.
  * </p>
  *
+ * @param <T>
+ *         the type of the object being (de)serialized.
  * @author David Silva
  */
 abstract class ObjectTypeAdapter<T> extends BaseTypeAdapter<T> {
+
+    // the default field mapper
+    protected final FieldMapper<T> DEFAULT_MAPPER =
+            (stream, obj) -> stream.skipValue();
+
+    // the field mapping map
+    private final Map<String, FieldMapper<T>> fieldMap = new HashMap<>();
 
     /**
      * Default constructor for the object type adapter
      *
      * @param gson
      *         the GSON object
+     * @param objectConstructor
+     *         the object constructor
      */
-    ObjectTypeAdapter(final Gson gson) {
-        super(gson);
+    ObjectTypeAdapter(final Gson gson, final Supplier<T> objectConstructor) {
+        super(gson, objectConstructor);
+    }
+
+    /**
+     * initializes the type adapter
+     */
+    void initialize() {
+        setupFieldMapping(new FieldMappingBuilder<>(fieldMap));
     }
 
     /**
@@ -85,7 +107,8 @@ abstract class ObjectTypeAdapter<T> extends BaseTypeAdapter<T> {
                         errorFieldsDetected++;
                     }
 
-                    updateFieldValue(obj, fieldName, in);
+                    fieldMap.getOrDefault(fieldName.toUpperCase(),
+                                          DEFAULT_MAPPER).map(in, obj);
                     fieldsNumber++;
                 }
                 in.endObject();
@@ -106,17 +129,12 @@ abstract class ObjectTypeAdapter<T> extends BaseTypeAdapter<T> {
     // abstract methods
 
     /**
-     * Updates the given field value on the object instance
+     * Setups the field mapping for this type adapter
      *
-     * @param object
-     *         the object where to updated the field value
-     * @param fieldName
-     *         the name of the field being updated
-     * @param in
-     *         the JSON reader stream where to read the value from
+     * @param builder
+     *         the field mapping builder
      */
-    abstract void updateFieldValue(T object, String fieldName, JsonReader in)
-            throws IOException;
+    abstract void setupFieldMapping(final FieldMappingBuilder<T> builder);
 
     // auxiliary methods
 
@@ -259,5 +277,48 @@ abstract class ObjectTypeAdapter<T> extends BaseTypeAdapter<T> {
             destiny.add(gson.getAdapter(clazz).read(reader));
         }
         reader.endArray();
+    }
+
+    /**
+     * The field mapping builder
+     *
+     * @param <T>
+     *         the type of the object for the mapping
+     */
+    static final class FieldMappingBuilder<T> {
+
+        // properties
+        private final Map<String, FieldMapper<T>> container;
+
+        /**
+         * Default constructor
+         *
+         * @param container
+         *         the mapping container
+         */
+        private FieldMappingBuilder(final Map<String,
+                FieldMapper<T>> container) {
+            this.container = container;
+        }
+
+        /**
+         * Adds the mapping for the specified field
+         *
+         * @param fieldName
+         *         the field name
+         * @param mapper
+         *         the field mapping
+         * @return the builder itself
+         * @throws NullPointerException
+         *         if one of {@code fieldName} or {@code mapper} is {@code
+         *         null}
+         */
+        public FieldMappingBuilder<T> add(final String fieldName,
+                                          final FieldMapper<T> mapper) {
+            Objects.requireNonNull(fieldName);
+            Objects.requireNonNull(mapper);
+            container.put(fieldName.toUpperCase(), mapper);
+            return this;
+        }
     }
 }

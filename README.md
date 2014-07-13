@@ -61,6 +61,7 @@ Note: In order to acquire an API key, please create an account at [Trakt.tv](htt
 		// handle error, invalid show...
 	}
 
+
 Errors:
 --------
 Errors in the API queries, such as querying with an invalid show, season or episode will trigger an 
@@ -75,9 +76,6 @@ TODO(?):
 * Movie Related services: TBD
 * User Management Related: TBD
 
-Improvements:
--------------
-* Refactor field deserialization per object
 
 Copyright
 ---------

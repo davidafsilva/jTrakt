@@ -30,51 +30,30 @@
 
 package pt.davidafsilva.jtrakt.internal.response;
 
-import com.google.gson.Gson;
-import pt.davidafsilva.jtrakt.model.common.People;
-import pt.davidafsilva.jtrakt.model.tv.TvShow;
-import pt.davidafsilva.jtrakt.model.tv.TvShowSummary;
+import com.google.gson.stream.JsonReader;
 
-import java.time.ZoneOffset;
-import java.util.function.Supplier;
+import java.io.IOException;
 
 /**
- * Deserialization entity for {@link TvShowSummary} objects.
+ * This interface defines a functional interface for mapping an arbitrary
+ * JSON attribute to his correspondent java attribute.
  *
+ * @param <T>
+ *         the type of object where the mapping is going to be applied
  * @author David Silva
  */
-final class TvShowSummaryTypeAdapter extends TvShowTypeAdapter {
+@FunctionalInterface
+interface FieldMapper<T> {
 
     /**
-     * Default constructor for the type adapter
+     * Maps an arbitrary field to the specified object.
      *
-     * @param gson
-     *         the GSON object
-     * @param objectConstructor
-     *         the object constructor
+     * @param stream
+     *         the stream where the value should be read
+     * @param obj
+     *         the target object
+     * @throws IOException
+     *         if an error occurs while reading the stream
      */
-    TvShowSummaryTypeAdapter(final Gson gson, final Supplier<TvShow>
-            objectConstructor) {
-        super(gson, objectConstructor);
-    }
-
-    @Override
-    void setupFieldMapping(final FieldMappingBuilder<TvShow> builder) {
-        super.setupFieldMapping(builder);
-        builder.add("first_aired", DEFAULT_MAPPER);
-        builder.add("first_aired_iso", DEFAULT_MAPPER);
-        builder.add("airtime", DEFAULT_MAPPER);
-        builder.add("airday", DEFAULT_MAPPER);
-        builder.add("first_aired_utc", (stream, obj) -> obj.setFirstAired(
-                readDateTimeTimestamp(stream, ZoneOffset.UTC)));
-        builder.add("air_day_utc",
-                    (stream, obj) -> obj.setAirDay(readString(stream)));
-        builder.add("air_time_utc",
-                    (stream, obj) -> obj.setAirTime(readString(stream)));
-        builder.add("last_updated",
-                    (stream, obj) -> ((TvShowSummary) obj).setLastUpdated(
-                            readLong(stream)));
-        builder.add("people", (stream, obj) -> ((TvShowSummary) obj).setPeople(
-                readObject(stream, People.class)));
-    }
+    void map(final JsonReader stream, final T obj) throws IOException;
 }

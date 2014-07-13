@@ -192,35 +192,40 @@ public class TraktServiceFactory {
         @Override
         public Throwable handleError(final RetrofitError cause) {
             Throwable ret = cause;
-            // http://trakt.tv/api-docs/errors
-            switch (cause.getResponse().getStatus()) {
-                case 400: // bad request
-                case 401: // unauthorized
-                case 404: // not found
-                case 503: // Service Unavailable
-                    if (cause.getResponse().getBody() != null) {
-                        try {
-                            final Scanner bodyScanner = new Scanner(
-                                    cause.getResponse().getBody().in(), "UTF-8")
-                                    .useDelimiter("\\A");
-                            final String body = bodyScanner.hasNext() ?
-                                                bodyScanner.next() :
-                                                null;
-                            if (body != null && body.length() > 1) {
-                                char first = body.charAt(0);
-                                char last = body.charAt(body.length() - 1);
-                                if ((first == '[' && last == ']') ||
-                                    (first == '{' && last == '}')) {
-                                    // TODO: extract error message if it's an
-                                    // object to give a more meaningful error
-                                    ret = new NoResultsFoundException(cause);
+            if (cause != null && cause.getResponse() != null) {
+                // http://trakt.tv/api-docs/errors
+                switch (cause.getResponse().getStatus()) {
+                    case 400: // bad request
+                    case 401: // unauthorized
+                    case 404: // not found
+                    case 503: // Service Unavailable
+                        if (cause.getResponse().getBody() != null) {
+                            try {
+                                final Scanner bodyScanner = new Scanner(
+                                        cause.getResponse().getBody().in(),
+                                        "UTF-8").useDelimiter("\\A");
+                                final String body = bodyScanner.hasNext() ?
+                                                    bodyScanner.next() :
+                                                    null;
+                                if (body != null && body.length() > 1) {
+                                    char first = body.charAt(0);
+                                    char last = body.charAt(body.length() - 1);
+                                    if ((first == '[' && last == ']') ||
+                                        (first == '{' && last == '}')) {
+                                        // TODO: extract error message if
+                                        // it's an
+                                        // object to give a more meaningful
+                                        // error
+                                        ret = new NoResultsFoundException(
+                                                cause);
+                                    }
                                 }
+                            } catch (IOException e) {
+                                // ignore it, return the original cause
                             }
-                        } catch (IOException e) {
-                            // ignore it, return the original cause
                         }
-                    }
-                    break;
+                        break;
+                }
             }
 
             return ret;

@@ -6,12 +6,17 @@
  *          * Redistributions of source code must retain the above copyright
  *              notice, this list of conditions and the following disclaimer.
  *          * Redistributions in binary form must reproduce the above copyright
- *              notice, this list of conditions and the following disclaimer in the
- *              documentation and/or other materials provided with the distribution.
+ *              notice, this list of conditions and the following disclaimer
+ *              in the
+ *              documentation and/or other materials provided with the
+ *              distribution.
  *          * Neither the name of the <organization> nor the
- *              names of its contributors may be used to endorse or promote products
- *              derived from this software without specific prior written permission.
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ *              names of its contributors may be used to endorse or promote
+ *              products
+ *              derived from this software without specific prior written
+ *              permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
@@ -45,9 +50,6 @@ final class CollectionTypeAdapter<E> extends BaseTypeAdapter<Collection<E>> {
     // the collection element type adapter
     private final TypeAdapter<E> elementTypeAdapter;
 
-    // the collection constructor
-    private final Supplier<Collection<E>> constructor;
-
     /**
      * Default constructor for the collection adapter
      *
@@ -58,15 +60,16 @@ final class CollectionTypeAdapter<E> extends BaseTypeAdapter<Collection<E>> {
      * @param constructor
      *         the collection instantiation constructor
      */
-    public CollectionTypeAdapter(final Gson gson, final TypeAdapter<E> elementTypeAdapter,
-                                 final Supplier<Collection<E>> constructor) {
-        super(gson);
+    public CollectionTypeAdapter(final Gson gson, final TypeAdapter<E>
+            elementTypeAdapter, final Supplier<Collection<E>> constructor) {
+        super(gson, constructor);
         this.elementTypeAdapter = elementTypeAdapter;
-        this.constructor = constructor;
     }
 
     @Override
-    void handleToken(final JsonReader in, final JsonToken token, final Collection<E> obj) throws IOException {
+    void handleToken(final JsonReader in, final JsonToken token,
+                     final Collection<E> obj)
+            throws IOException {
         switch (token) {
             case BEGIN_ARRAY:
                 // handle the collection
@@ -110,18 +113,10 @@ final class CollectionTypeAdapter<E> extends BaseTypeAdapter<Collection<E>> {
                 // if an error wasn't detected, let's throw an exception
                 // and abort the deserialization process.
             default:
-                throw new IllegalStateException(String.format(
-                        "Invalid JSON token received: %s", token.name()));
+                throw new IllegalStateException(
+                        String.format("Invalid JSON token received: %s",
+                                      token.name()));
         }
     }
 
-    @Override
-    Collection<E> createInstance() {
-        return constructor.get();
-    }
-
-    @Override
-    Collection<E> getObjectOnResultError() {
-        return createInstance();
-    }
 }
