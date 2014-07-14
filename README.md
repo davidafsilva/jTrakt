@@ -8,58 +8,71 @@ and request features to be implemented or submit a pull request.
 Usage:
 ------
 #### 1. Create/Initialize the TV service
+```java
     final TraktTvService service = TraktTestServiceFactory.getInstance().createTvService(API_KEY);
+```
 Note: In order to acquire an API key, please create an account at [Trakt.tv](http://trakt.tv/).
 
 #### 2. Get the first thirty (ordered by relevance) TV shows that matches "valley"
+```java
     final List<TvShow> searchResult = service.searchShow("valley");
     // iterate over the results..
-    
+```
+
 #### 3. Get the first five TV shows (ordered by relevance) that matches "valley"
+```java
     final List<TvShow> searchResult = service.searchShow("valley", 5);
     // iterate over the results..
+```
 
 #### 4. Get the first TV show (ordered by relevance) that matches "silicon valley", including small seasons/episode count information
+```java
     final List<TvShow> searchResult = service.searchShow("valley", 1, true);
     final TvShow show = searchResult.isEmpty() ? null : searchResult.get(0);
     if (show != null) {
 	    // use the show for something
 	}
+```
 	
 #### 5. Get the show summary for Silicon Valley by TVDB identifier (show slug is also supported by the API)
-	try {
-	    final TvShowSummary showSummary = service.getShowSummary("277165");
-	    // use the show summary for something
-	} catch (NoResultsFoundException e) {
-		// handle error, invalid show...
-	}
+```java
+    try {
+        final TvShowSummary showSummary = service.getShowSummary("277165");
+        // use the show summary for something
+    } catch (NoResultsFoundException e) {
+        // handle error, invalid show...
+    }
+```
 
 #### 6. Get the seasons information for Silicon Valley by TVDB identifier (show slug is also supported)
-	try {
-	    final List<TvShowSeason> showSeasons = service.getShowSeasons("277165");
+```java
+    try {
+        final List<TvShowSeason> showSeasons = service.getShowSeasons("277165");
         // use the show seasons for something
-
-	} catch (NoResultsFoundException e) {
-		// handle error, invalid show...
-	}
+    } catch (NoResultsFoundException e) {
+        // handle error, invalid show...
+    }
+```
 
 #### 7. Get the episodes information for Silicon Valley, season 1 (use 0 for special episodes)
-	try {
-	    final List<TvShowSeasonEpisode> seasonEpisodes = service.getShowEpisodes("277165", 1);
+```java
+    try {
+        final List<TvShowSeasonEpisode> seasonEpisodes = service.getShowEpisodes("277165", 1);
         // use the season episodes for something
-
-	} catch (NoResultsFoundException e) {
-		// handle error, invalid show or season...
-	}
+    } catch (NoResultsFoundException e) {
+        // handle error, invalid show or season...
+    }
+```
 
 #### 8. Get one episode information for Silicon Valley, season 1 (use 0 for special episodes), episode 1
-	try {
-	    final TvShowEpisodeSummary episode = service.getShowEpisodeSummary("277165", 1, 1);
+```java
+    try {
+        final TvShowEpisodeSummary episode = service.getShowEpisodeSummary("277165", 1, 1);
         // use the episode for something
-
-	} catch (NoResultsFoundException e) {
-		// handle error, invalid show...
-	}
+    } catch (NoResultsFoundException e) {
+        // handle error, invalid show...
+    }
+```
 
 
 Errors:
