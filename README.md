@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/davidafsilva/jTrakt.svg?branch=master)](https://travis-ci.org/davidafsilva/jTrakt)
+
 jTrakt
 =============
 jTrakt is a simple Java API for accessing (selected) trakt.tv content.<br/>
