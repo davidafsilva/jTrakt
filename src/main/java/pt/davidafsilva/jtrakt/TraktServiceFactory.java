@@ -160,8 +160,12 @@ public class TraktServiceFactory {
     RequestInterceptor getRequestInterceptor(final String apiKey) {
         return requestFacade -> {
             // request header
-            requestFacade.addHeader("User-Agent", getUserAgent());
+            requestFacade.addHeader("Host", "api.trakt.tv");
+            requestFacade.addHeader("Accept", "application/json");
+            requestFacade.addHeader("Accept-Encoding", "identity");
+            requestFacade.addHeader("Accept-Language", "en-US");
             requestFacade.addHeader("DNT", "1");
+            requestFacade.addHeader("User-Agent", getUserAgent());
             requestFacade.addHeader("apiKey", apiKey);
 
             // request parameters
