@@ -78,6 +78,8 @@ public class TraktServiceFactory {
 
     /**
      * Deserialization safety
+     *
+     * @return the singleton instance
      */
     Object readResolve() {
         return Holder.instance;

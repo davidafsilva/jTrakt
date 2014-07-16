@@ -1,6 +1,4 @@
-[![Build Status](https://travis-ci.org/davidafsilva/jTrakt.svg?branch=master)](https://travis-ci.org/davidafsilva/jTrakt)
-
-jTrakt
+jTrakt [![Build Status](https://travis-ci.org/davidafsilva/jTrakt.svg?branch=master)](https://travis-ci.org/davidafsilva/jTrakt)
 =============
 jTrakt is a simple Java API for accessing (selected) trakt.tv content.<br/>
 Currently only a small set of methods are supported, feel free to drop a message
@@ -76,6 +74,9 @@ Note: In order to acquire an API key, please create an account at [Trakt.tv](htt
     }
 ```
 
+Documentation:
+--------------
+The java documentation can be viewed [here](https://davidafsilva.github.io/jTrakt/).
 
 Errors:
 --------
