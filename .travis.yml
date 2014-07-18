@@ -12,6 +12,8 @@ before_install:
 
 after_success:  mvn site --settings target/travis/settings.xml
 
+install: mvn install -DskipTests=true -B -V
+
 env:
   global:
     - secure: "LulQ2eLVSmZeDeqXp7k+aJ4qzYwYv/6SJkO6dKXDBOCsqjFbZA1VIdzr0dvkPP9RnInxfm+idivEBPcMeISDP0vxuJ9FpfsAOY1ZdzR7XH2kEPHjOVz4wPn2cTArSsitognr9lRYOmY3gPsKpZvcTyLHLq5wVAe/yJrlzli13Wc="
