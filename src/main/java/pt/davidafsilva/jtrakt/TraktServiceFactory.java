@@ -41,9 +41,12 @@ import retrofit.ErrorHandler;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
+import retrofit.client.Request;
+import retrofit.client.UrlConnectionClient;
 import retrofit.converter.GsonConverter;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.Scanner;
 
 /**
@@ -57,8 +60,7 @@ public class TraktServiceFactory {
 
     // singleton holder
     private static final class Holder {
-        private static final TraktServiceFactory instance =
-                new TraktServiceFactory();
+        private static final TraktServiceFactory instance = new TraktServiceFactory();
     }
 
     /**
@@ -86,11 +88,11 @@ public class TraktServiceFactory {
     }
 
     // static properties
-    private static final String NAME =
-            TraktServiceFactory.class.getPackage().getImplementationTitle();
-    private static final String VERSION =
-            TraktServiceFactory.class.getPackage().getImplementationVersion();
+    private static final String NAME = TraktServiceFactory.class.getPackage().getImplementationTitle();
+    private static final String VERSION = TraktServiceFactory.class.getPackage().getImplementationVersion();
     private static final String USER_AGENT = NAME + "/" + VERSION;
+    private static final int CONNECTION_TIMEOUT = 60 * 1000;
+    private static final int READ_TIMEOUT = 60 * 1000;
 
     /**
      * <p>
@@ -120,22 +122,29 @@ public class TraktServiceFactory {
      */
     private RestAdapter createRestAdapter(final String apiKey) {
         // build the JSON mapping
-        final Gson gson = new GsonBuilder().setFieldNamingPolicy(
-                FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                                           .registerTypeAdapterFactory(
-                                                   ObjectTypeAdapterFactory
-                                                           .INSTANCE)
-                                           .registerTypeAdapterFactory(
-                                                   CollectionTypeAdapterFactory.INSTANCE)
-                                           .create();
+        final Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .registerTypeAdapterFactory(ObjectTypeAdapterFactory.INSTANCE)
+                .registerTypeAdapterFactory(CollectionTypeAdapterFactory.INSTANCE)
+                .create();
 
         // build the REST adapter
         final RestAdapter.Builder builder = new RestAdapter.Builder();
         // setup basic rest adapter
+        final UrlConnectionClient urlConnectionClient = new UrlConnectionClient() {
+            @Override
+            protected HttpURLConnection openConnection(final Request request) throws IOException {
+                final HttpURLConnection con = super.openConnection(request);
+                con.setConnectTimeout(CONNECTION_TIMEOUT);
+                con.setReadTimeout(READ_TIMEOUT);
+                return con;
+            }
+        };
+
         builder.setConverter(new GsonConverter(gson))
-               .setRequestInterceptor(getRequestInterceptor(apiKey))
-               .setEndpoint("https://api.trakt.tv")
-               .setErrorHandler(new TraktErrorHandler());
+                .setRequestInterceptor(getRequestInterceptor(apiKey))
+                .setClient(urlConnectionClient)
+                .setEndpoint("https://api.trakt.tv")
+                .setErrorHandler(new TraktErrorHandler());
         // configure additional settings
         configureRestAdapter(builder);
 
@@ -207,23 +216,18 @@ public class TraktServiceFactory {
                     case 503: // Service Unavailable
                         if (cause.getResponse().getBody() != null) {
                             try {
-                                final Scanner bodyScanner = new Scanner(
-                                        cause.getResponse().getBody().in(),
-                                        "UTF-8").useDelimiter("\\A");
-                                final String body = bodyScanner.hasNext() ?
-                                                    bodyScanner.next() :
-                                                    null;
+                                final Scanner bodyScanner =
+                                        new Scanner(cause.getResponse().getBody().in(), "UTF-8").useDelimiter("\\A");
+                                final String body = bodyScanner.hasNext() ? bodyScanner.next() : null;
                                 if (body != null && body.length() > 1) {
                                     char first = body.charAt(0);
                                     char last = body.charAt(body.length() - 1);
-                                    if ((first == '[' && last == ']') ||
-                                        (first == '{' && last == '}')) {
+                                    if ((first == '[' && last == ']') || (first == '{' && last == '}')) {
                                         // TODO: extract error message if
                                         // it's an
                                         // object to give a more meaningful
                                         // error
-                                        ret = new NoResultsFoundException(
-                                                cause);
+                                        ret = new NoResultsFoundException(cause);
                                     }
                                 }
                             } catch (IOException e) {
